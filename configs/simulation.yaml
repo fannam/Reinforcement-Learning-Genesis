@@ -1,0 +1,13 @@
+simulation:
+  timestep: 0.01
+  steps: 1000
+  show_viewer: false
+  backend: cpu
+
+viewer:
+  width: 960
+  height: 640
+
+control:
+  kp: 120.0
+  kv: 12.0

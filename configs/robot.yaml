@@ -1,0 +1,6 @@
+robot:
+  name: starter_humanoid
+  xml: robots/starter_humanoid/starter_humanoid.xml
+
+assets:
+  meshes: robots/starter_humanoid/meshes
