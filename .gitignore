@@ -15,7 +15,7 @@ outputs/videos/*
 !outputs/logs/.gitkeep
 !outputs/videos/.gitkeep
 docs/
-
+.vscode
 .DS_Store
 *.mp4
 *.npz
