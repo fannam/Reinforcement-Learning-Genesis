@@ -28,3 +28,44 @@ python scripts/run_sim.py --robot robots/my_robot/my_robot.xml
 ```
 
 Khi đổi tên joint trong XML, cập nhật controller tương ứng trong `src/robotics_genesis/controllers/sine_pose.py`.
+
+## Chia Robot Thành Nhiều File XML
+
+Khi humanoid bắt đầu lớn, nên tách từng bộ phận bằng MJCF `<include>`:
+
+```text
+robots/modular_humanoid/
+  modular_humanoid.xml
+  parts/
+    assets.xml
+    scene.xml
+    body.xml
+    torso.xml
+    right_arm.xml
+    left_arm.xml
+    right_leg.xml
+    left_leg.xml
+    actuators.xml
+  meshes/
+```
+
+File chính chỉ ráp các phần:
+
+```xml
+<mujoco model="modular_humanoid">
+  <asset>
+    <include file="parts/assets.xml"/>
+  </asset>
+
+  <worldbody>
+    <include file="parts/scene.xml"/>
+    <include file="parts/body.xml"/>
+  </worldbody>
+
+  <actuator>
+    <include file="parts/actuators.xml"/>
+  </actuator>
+</mujoco>
+```
+
+Mỗi file trong `parts/` dùng root `<mujoco>` làm wrapper, còn nội dung bên trong là snippet cần include.

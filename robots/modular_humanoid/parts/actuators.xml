@@ -1,0 +1,15 @@
+<mujoco>
+  <motor name="abdomen_pitch_motor" joint="abdomen_pitch" gear="80"/>
+  <motor name="shoulder_pitch_right_motor" joint="shoulder_pitch_right" gear="45"/>
+  <motor name="elbow_right_motor" joint="elbow_right" gear="35"/>
+  <motor name="wrist_pitch_right_motor" joint="wrist_pitch_right" gear="20"/>
+  <motor name="shoulder_pitch_left_motor" joint="shoulder_pitch_left" gear="45"/>
+  <motor name="elbow_left_motor" joint="elbow_left" gear="35"/>
+  <motor name="wrist_pitch_left_motor" joint="wrist_pitch_left" gear="20"/>
+  <motor name="hip_pitch_right_motor" joint="hip_pitch_right" gear="85"/>
+  <motor name="knee_right_motor" joint="knee_right" gear="85"/>
+  <motor name="ankle_pitch_right_motor" joint="ankle_pitch_right" gear="55"/>
+  <motor name="hip_pitch_left_motor" joint="hip_pitch_left" gear="85"/>
+  <motor name="knee_left_motor" joint="knee_left" gear="85"/>
+  <motor name="ankle_pitch_left_motor" joint="ankle_pitch_left" gear="55"/>
+</mujoco>

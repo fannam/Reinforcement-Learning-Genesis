@@ -1,0 +1,10 @@
+<mujoco>
+  <body name="pelvis" pos="0 0 1.05">
+    <freejoint name="root"/>
+    <geom name="pelvis_geom" type="capsule" fromto="-0.13 0 0 0.13 0 0" size="0.08" material="body_mat"/>
+
+    <include file="torso.xml"/>
+    <include file="right_leg.xml"/>
+    <include file="left_leg.xml"/>
+  </body>
+</mujoco>

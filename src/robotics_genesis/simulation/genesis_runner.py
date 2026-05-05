@@ -4,7 +4,8 @@ import os
 from pathlib import Path
 
 from robotics_genesis.controllers import default_starter_gait
-from robotics_genesis.xml_robot import get_1d_joint_names
+from robotics_genesis.paths import project_path
+from robotics_genesis.xml_robot import get_1d_joint_names, prepare_mjcf_for_genesis
 
 
 def _select_backend(gs, name: str):
@@ -34,6 +35,7 @@ def run_genesis_simulation(
         os.environ["PYOPENGL_PLATFORM"] = os.getenv("PYOPENGL_PLATFORM", "glx")
 
     robot_path = Path(robot_xml).resolve()
+    genesis_robot_path = prepare_mjcf_for_genesis(robot_path, project_path("outputs", "generated"))
     joint_order = get_1d_joint_names(robot_path)
     joint_index = {name: index for index, name in enumerate(joint_order)}
     gait = default_starter_gait()
@@ -45,7 +47,7 @@ def run_genesis_simulation(
         viewer_options = gs.options.ViewerOptions(run_in_thread=True, res=(960, 640))
 
     scene = gs.Scene(show_viewer=show_viewer, viewer_options=viewer_options)
-    robot = scene.add_entity(gs.morphs.MJCF(file=str(robot_path)))
+    robot = scene.add_entity(gs.morphs.MJCF(file=str(genesis_robot_path)))
     scene.build()
 
     root_dof_count = max(robot.n_dofs - len(joint_order), 0)

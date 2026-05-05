@@ -1,0 +1,23 @@
+<mujoco model="modular_humanoid">
+  <compiler angle="radian" inertiafromgeom="true" autolimits="true"/>
+  <option timestep="0.01" gravity="0 0 -9.81" integrator="RK4"/>
+
+  <default>
+    <joint damping="1.0" armature="0.02" limited="true"/>
+    <geom density="650" friction="1.0 0.1 0.1"/>
+    <motor ctrllimited="true" ctrlrange="-1 1"/>
+  </default>
+
+  <asset>
+    <include file="parts/assets.xml"/>
+  </asset>
+
+  <worldbody>
+    <include file="parts/scene.xml"/>
+    <include file="parts/body.xml"/>
+  </worldbody>
+
+  <actuator>
+    <include file="parts/actuators.xml"/>
+  </actuator>
+</mujoco>

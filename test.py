@@ -6,7 +6,7 @@ PROJECT_ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(PROJECT_ROOT / "src"))
 
 from robotics_genesis.controllers import default_starter_gait
-from robotics_genesis.xml_robot import get_1d_joint_names
+from robotics_genesis.xml_robot import get_1d_joint_names, prepare_mjcf_for_genesis
 
 show_viewer = os.getenv("SHOW_VIEWER", "0") == "1"
 if show_viewer:
@@ -36,6 +36,7 @@ if not robot_xml.is_absolute():
 joint_order = get_1d_joint_names(robot_xml)
 joint_index = {name: index for index, name in enumerate(joint_order)}
 gait = default_starter_gait()
+genesis_robot_xml = prepare_mjcf_for_genesis(robot_xml, PROJECT_ROOT / "outputs" / "generated")
 
 backend = os.getenv("GENESIS_BACKEND", "cpu").lower()
 gs.init(backend=select_backend(backend))
@@ -48,7 +49,7 @@ if show_viewer:
     )
 
 scene = gs.Scene(show_viewer=show_viewer, viewer_options=viewer_options)
-humanoid = scene.add_entity(gs.morphs.MJCF(file=str(robot_xml)))
+humanoid = scene.add_entity(gs.morphs.MJCF(file=str(genesis_robot_xml)))
 
 scene.build()
 

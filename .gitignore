@@ -7,9 +7,11 @@ __pycache__/
 .ruff_cache/
 
 outputs/checkpoints/*
+outputs/generated/*
 outputs/logs/*
 outputs/videos/*
 !outputs/checkpoints/.gitkeep
+!outputs/generated/.gitkeep
 !outputs/logs/.gitkeep
 !outputs/videos/.gitkeep
 

@@ -1,0 +1,19 @@
+<mujoco>
+  <body name="right_thigh" pos="0 -0.08 -0.03">
+    <joint name="hip_pitch_right" type="hinge" axis="0 1 0" range="-1.2 1.0"/>
+    <geom name="right_hip_geom" type="sphere" size="0.06" material="joint_mat"/>
+    <geom name="right_thigh_geom" type="capsule" fromto="0 0 0 0 0 -0.42" size="0.055" material="body_mat"/>
+
+    <body name="right_shin" pos="0 0 -0.42">
+      <joint name="knee_right" type="hinge" axis="0 1 0" range="-1.8 0.05"/>
+      <geom name="right_knee_geom" type="sphere" size="0.052" material="joint_mat"/>
+      <geom name="right_shin_geom" type="capsule" fromto="0 0 0 0 0 -0.40" size="0.045" material="body_mat"/>
+
+      <body name="right_foot" pos="0 0 -0.40">
+        <joint name="ankle_pitch_right" type="hinge" axis="0 1 0" range="-0.7 0.7"/>
+        <geom name="right_ankle_geom" type="sphere" size="0.045" material="joint_mat"/>
+        <geom name="right_foot_geom" type="box" pos="0.08 0 -0.035" size="0.16 0.06 0.035" material="foot_mat"/>
+      </body>
+    </body>
+  </body>
+</mujoco>

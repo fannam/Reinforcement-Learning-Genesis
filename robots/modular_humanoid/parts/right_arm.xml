@@ -1,0 +1,18 @@
+<mujoco>
+  <body name="right_upper_arm" pos="0 -0.18 0.34">
+    <joint name="shoulder_pitch_right" type="hinge" axis="0 1 0" range="-1.7 1.1"/>
+    <geom name="right_shoulder_geom" type="sphere" size="0.055" material="joint_mat"/>
+    <geom name="right_upper_arm_geom" type="capsule" fromto="0 0 0 0 -0.26 0" size="0.04" material="body_mat"/>
+
+    <body name="right_forearm" pos="0 -0.26 0">
+      <joint name="elbow_right" type="hinge" axis="0 1 0" range="-1.7 0.1"/>
+      <geom name="right_elbow_geom" type="sphere" size="0.048" material="joint_mat"/>
+      <geom name="right_forearm_geom" type="capsule" fromto="0 0 0 0 -0.24 0" size="0.035" material="body_mat"/>
+
+      <body name="right_wrist" pos="0 -0.24 0">
+        <joint name="wrist_pitch_right" type="hinge" axis="0 1 0" range="-0.8 0.8"/>
+        <geom name="right_wrist_geom" type="sphere" size="0.035" material="joint_mat"/>
+      </body>
+    </body>
+  </body>
+</mujoco>
