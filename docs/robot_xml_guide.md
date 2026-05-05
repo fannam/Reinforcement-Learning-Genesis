@@ -1,6 +1,6 @@
 # Hướng Dẫn Thiết Kế Robot Bằng XML/MJCF
 
-File robot chính nên đặt tại `robots/<ten_robot>/<ten_robot>.xml`.
+File robot chính hiện tại là `robots/modular_humanoid/modular_humanoid.xml`.
 
 ## Thành Phần Quan Trọng
 
@@ -13,18 +13,16 @@ File robot chính nên đặt tại `robots/<ten_robot>/<ten_robot>.xml`.
 
 ## Quy Ước Dự Án
 
-- Joint nên có tên rõ ràng: `shoulder_right`, `elbow_left`, `wheel_left`.
-- Mesh nên để cạnh robot trong `robots/<ten_robot>/meshes/`.
+- Joint nên có tên rõ ràng: `shoulder_pitch_right`, `elbow_left`, `hip_pitch_left`.
+- Mesh nên để cạnh robot trong `robots/modular_humanoid/meshes/`.
 - XML nên chạy được bằng `scripts/validate_xml.py` trước khi đưa vào simulation.
 - Nếu robot có base tự do, dùng `<freejoint name="root"/>` ở body gốc.
 
 ## Ví Dụ Workflow
 
 ```bash
-mkdir -p robots/my_robot/meshes
-cp robots/starter_humanoid/starter_humanoid.xml robots/my_robot/my_robot.xml
-python scripts/validate_xml.py robots/my_robot/my_robot.xml
-python scripts/run_sim.py --robot robots/my_robot/my_robot.xml
+python scripts/validate_xml.py robots/modular_humanoid/modular_humanoid.xml --mujoco
+python scripts/run_sim.py --robot robots/modular_humanoid/modular_humanoid.xml --steps 300
 ```
 
 Khi đổi tên joint trong XML, cập nhật controller tương ứng trong `src/robotics_genesis/controllers/sine_pose.py`.

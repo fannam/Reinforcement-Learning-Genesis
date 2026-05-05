@@ -5,7 +5,7 @@ from pathlib import Path
 PROJECT_ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(PROJECT_ROOT / "src"))
 
-from robotics_genesis.controllers import default_starter_gait
+from robotics_genesis.controllers import default_modular_gait
 from robotics_genesis.xml_robot import get_1d_joint_names, prepare_mjcf_for_genesis
 
 show_viewer = os.getenv("SHOW_VIEWER", "0") == "1"
@@ -29,13 +29,13 @@ def select_backend(name: str):
     raise ValueError("GENESIS_BACKEND must be 'cpu' or 'gpu'")
 
 
-robot_xml = Path(os.getenv("ROBOT_XML", "robots/starter_humanoid/starter_humanoid.xml"))
+robot_xml = Path(os.getenv("ROBOT_XML", "robots/modular_humanoid/modular_humanoid.xml"))
 if not robot_xml.is_absolute():
     robot_xml = PROJECT_ROOT / robot_xml
 
 joint_order = get_1d_joint_names(robot_xml)
 joint_index = {name: index for index, name in enumerate(joint_order)}
-gait = default_starter_gait()
+gait = default_modular_gait()
 genesis_robot_xml = prepare_mjcf_for_genesis(robot_xml, PROJECT_ROOT / "outputs" / "generated")
 
 backend = os.getenv("GENESIS_BACKEND", "cpu").lower()

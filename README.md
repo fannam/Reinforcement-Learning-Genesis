@@ -1,78 +1,92 @@
-# Robotics Genesis Starter
+# Robotics Genesis Modular Humanoid
 
-Bộ khung này dùng cho dự án robotics tự thiết kế robot bằng file XML/MJCF và chạy mô phỏng bằng Genesis.
+Dự án này tập trung vào một robot humanoid dạng modular, được thiết kế bằng MJCF/XML và chạy mô phỏng bằng Genesis.
 
 ## Cấu Trúc Chính
 
 ```text
-assets/                 Mesh, texture, material dùng chung
 configs/                Tham số robot và simulation
-docs/                   Ghi chú thiết kế robot XML
-outputs/                Log, video, checkpoint sinh ra khi chạy
-robots/                 Mỗi robot nằm trong một thư mục riêng
-scripts/                Script CLI để validate XML và chạy mô phỏng
+docs/                   Ghi chú thiết kế robot XML và roadmap phát triển
+outputs/                Log, XML generated, video, checkpoint
+robots/modular_humanoid Robot humanoid chính
+scripts/                Script validate XML và chạy simulation
 src/robotics_genesis/   Code Python dùng lại được
-tests/                  Test cấu trúc và XML
-xml/                    Khu vực XML thử nghiệm hoặc legacy
+tests/                  Test cấu trúc XML
 ```
 
-Robot mẫu nằm ở `robots/starter_humanoid/starter_humanoid.xml`.
-Robot test tối giản nằm ở `robots/basic_arm/basic_arm.xml`.
-Humanoid cơ bản nằm ở `robots/basic_humanoid/basic_humanoid.xml`.
-Humanoid modular nằm ở `robots/modular_humanoid/modular_humanoid.xml`.
+Robot chính:
+
+```text
+robots/modular_humanoid/modular_humanoid.xml
+```
+
+## Modular Humanoid
+
+```text
+robots/modular_humanoid/
+  modular_humanoid.xml
+  parts/
+    assets.xml
+    scene.xml
+    body.xml
+    torso.xml
+    right_arm.xml
+    left_arm.xml
+    right_leg.xml
+    left_leg.xml
+    actuators.xml
+  meshes/
+```
+
+`modular_humanoid.xml` là file chính. Các bộ phận được ráp bằng MJCF `<include>`.
 
 ## Chạy Nhanh
 
 ```bash
 source .venv/bin/activate
-python scripts/validate_xml.py robots/starter_humanoid/starter_humanoid.xml
-python scripts/run_sim.py --robot robots/starter_humanoid/starter_humanoid.xml --steps 300
-```
-
-Test robot XML cơ bản:
-
-```bash
-source .venv/bin/activate
-python scripts/validate_xml.py robots/basic_arm/basic_arm.xml --mujoco
-SHOW_VIEWER=1 python scripts/run_sim.py --robot robots/basic_arm/basic_arm.xml --steps 1000
-```
-
-Test humanoid XML cơ bản:
-
-```bash
-source .venv/bin/activate
-python scripts/validate_xml.py robots/basic_humanoid/basic_humanoid.xml --mujoco
-SHOW_VIEWER=1 python scripts/run_sim.py --robot robots/basic_humanoid/basic_humanoid.xml --steps 1000
-```
-
-Test humanoid chia nhiều file XML:
-
-```bash
-source .venv/bin/activate
 python scripts/validate_xml.py robots/modular_humanoid/modular_humanoid.xml --mujoco
-SHOW_VIEWER=1 python scripts/run_sim.py --robot robots/modular_humanoid/modular_humanoid.xml --steps 1000
+python scripts/run_sim.py --steps 300
 ```
 
 Mở viewer:
 
 ```bash
-SHOW_VIEWER=1 python scripts/run_sim.py --robot robots/starter_humanoid/starter_humanoid.xml
+SHOW_VIEWER=1 python scripts/run_sim.py --steps 10000
+```
+
+Chạy qua `test.py`:
+
+```bash
+ROBOT_XML=robots/modular_humanoid/modular_humanoid.xml STEPS=100 .venv/bin/python test.py
+SHOW_VIEWER=1 ROBOT_XML=robots/modular_humanoid/modular_humanoid.xml STEPS=10000 .venv/bin/python test.py
 ```
 
 Chọn backend:
 
 ```bash
-GENESIS_BACKEND=gpu python scripts/run_sim.py
 GENESIS_BACKEND=cpu python scripts/run_sim.py
+GENESIS_BACKEND=gpu python scripts/run_sim.py
 ```
 
-## Quy Trình Thiết Kế Robot XML
+## Quy Trình Phát Triển
 
-1. Tạo thư mục mới trong `robots/<ten_robot>/`.
-2. Đặt file MJCF chính là `robots/<ten_robot>/<ten_robot>.xml`.
-3. Đặt mesh riêng của robot vào `robots/<ten_robot>/meshes/`.
-4. Chạy `python scripts/validate_xml.py robots/<ten_robot>/<ten_robot>.xml`.
-5. Chạy mô phỏng với `python scripts/run_sim.py --robot robots/<ten_robot>/<ten_robot>.xml`.
+1. Sửa từng file trong `robots/modular_humanoid/parts/`.
+2. Chạy validate:
 
-Nếu cần điều khiển joint theo tên, sửa `src/robotics_genesis/controllers/sine_pose.py`.
-# Reinforcement-Learning-Genesis
+```bash
+python scripts/validate_xml.py robots/modular_humanoid/modular_humanoid.xml --mujoco
+```
+
+3. Chạy simulation ngắn:
+
+```bash
+python scripts/run_sim.py --steps 1
+```
+
+4. Mở viewer kiểm tra:
+
+```bash
+SHOW_VIEWER=1 python scripts/run_sim.py --steps 10000
+```
+
+Nếu đổi tên joint, cập nhật controller trong `src/robotics_genesis/controllers/sine_pose.py`.

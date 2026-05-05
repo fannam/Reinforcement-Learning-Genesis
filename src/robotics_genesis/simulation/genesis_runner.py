@@ -3,7 +3,7 @@ from __future__ import annotations
 import os
 from pathlib import Path
 
-from robotics_genesis.controllers import default_starter_gait
+from robotics_genesis.controllers import default_modular_gait
 from robotics_genesis.paths import project_path
 from robotics_genesis.xml_robot import get_1d_joint_names, prepare_mjcf_for_genesis
 
@@ -38,7 +38,7 @@ def run_genesis_simulation(
     genesis_robot_path = prepare_mjcf_for_genesis(robot_path, project_path("outputs", "generated"))
     joint_order = get_1d_joint_names(robot_path)
     joint_index = {name: index for index, name in enumerate(joint_order)}
-    gait = default_starter_gait()
+    gait = default_modular_gait()
 
     gs.init(backend=_select_backend(gs, backend))
 
