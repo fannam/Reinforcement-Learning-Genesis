@@ -1,18 +1,43 @@
 <mujoco>
-  <body name="left_thigh" pos="0 0.08 -0.03">
-    <joint name="hip_pitch_left" type="hinge" axis="0 1 0" range="-1.2 1.0"/>
-    <geom name="left_hip_geom" type="sphere" size="0.06" material="joint_mat"/>
-    <geom name="left_thigh_geom" type="capsule" fromto="0 0 0 0 0 -0.42" size="0.055" material="body_mat"/>
+  <body name="left_hip_yaw" pos="0 0.09 -0.04">
+    <joint name="hip_yaw_left" type="hinge" axis="0 0 1" range="-0.8 0.8"/>
+    <inertial pos="0 0 0" mass="0.05" diaginertia="0.00025 0.00025 0.00025"/>
 
-    <body name="left_shin" pos="0 0 -0.42">
-      <joint name="knee_left" type="hinge" axis="0 1 0" range="-1.8 0.05"/>
-      <geom name="left_knee_geom" type="sphere" size="0.052" material="joint_mat"/>
-      <geom name="left_shin_geom" type="capsule" fromto="0 0 0 0 0 -0.40" size="0.045" material="body_mat"/>
+    <body name="left_hip_roll">
+      <joint name="hip_roll_left" type="hinge" axis="1 0 0" range="-0.45 0.55"/>
+      <inertial pos="0 0 0" mass="0.05" diaginertia="0.00025 0.00025 0.00025"/>
 
-      <body name="left_foot" pos="0 0 -0.40">
-        <joint name="ankle_pitch_left" type="hinge" axis="0 1 0" range="-0.7 0.7"/>
-        <geom name="left_ankle_geom" type="sphere" size="0.045" material="joint_mat"/>
-        <geom name="left_foot_geom" type="box" pos="0.08 0 -0.035" size="0.16 0.06 0.035" material="foot_mat"/>
+      <body name="left_thigh">
+        <joint name="hip_pitch_left" type="hinge" axis="0 1 0" range="-1.25 1.0"/>
+        <geom name="left_hip_geom" type="sphere" size="0.065" material="joint_mat" contype="0" conaffinity="0"/>
+        <geom name="left_thigh_geom" type="capsule" fromto="0 0 0 0 0 -0.42" size="0.058" material="limb_mat"/>
+
+        <body name="left_shin" pos="0 0 -0.42">
+          <joint name="knee_pitch_left" type="hinge" axis="0 1 0" range="-1.9 0.05"/>
+          <geom name="left_knee_geom" type="sphere" size="0.054" material="joint_mat" contype="0" conaffinity="0"/>
+          <geom name="left_shin_geom" type="capsule" fromto="0 0 0 0 0 -0.40" size="0.047" material="limb_mat"/>
+
+          <body name="left_ankle_roll" pos="0 0 -0.40">
+            <joint name="ankle_roll_left" type="hinge" axis="1 0 0" range="-0.45 0.45"/>
+            <inertial pos="0 0 0" mass="0.03" diaginertia="0.00015 0.00015 0.00015"/>
+
+            <body name="left_foot">
+              <joint name="ankle_pitch_left" type="hinge" axis="0 1 0" range="-0.75 0.75"/>
+              <geom name="left_ankle_geom" type="sphere" size="0.046" material="joint_mat" contype="0" conaffinity="0"/>
+              <geom name="left_foot_geom" type="box" pos="0.08 0 -0.035" size="0.16 0.065 0.035" material="foot_mat"/>
+              <geom name="left_sole_geom" type="box" pos="0.08 0 -0.076" size="0.165 0.068 0.008" material="sole_mat"/>
+              <site name="left_ankle_force" pos="0 0 0" size="0.012" rgba="0 1 1 0.5"/>
+              <site name="left_sole" pos="0.08 0 -0.084" size="0.165 0.068 0.005" type="box" rgba="0 1 1 0.2"/>
+              <site name="left_heel" pos="-0.05 0 -0.076" size="0.012" rgba="1 1 0 0.5"/>
+              <site name="left_toe_tip" pos="0.30 0 -0.035" size="0.012" rgba="1 1 0 0.5"/>
+
+              <body name="left_toe" pos="0.22 0 -0.035">
+                <joint name="toe_pitch_left" type="hinge" axis="0 1 0" range="-0.35 0.55"/>
+                <geom name="left_toe_geom" type="box" pos="0.035 0 0" size="0.055 0.062 0.025" material="foot_mat"/>
+              </body>
+            </body>
+          </body>
+        </body>
       </body>
     </body>
   </body>

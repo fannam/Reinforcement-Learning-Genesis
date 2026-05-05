@@ -17,7 +17,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--robot", default="robots/modular_humanoid/modular_humanoid.xml", help="Path to robot MJCF XML.")
     parser.add_argument("--steps", type=int, default=int(os.getenv("STEPS", "1000")), help="Number of simulation steps.")
     parser.add_argument("--viewer", action="store_true", default=os.getenv("SHOW_VIEWER", "0") == "1", help="Show Genesis viewer.")
-    parser.add_argument("--backend", default=os.getenv("GENESIS_BACKEND", "cpu"), choices=("cpu", "gpu"), help="Genesis backend.")
+    parser.add_argument("--backend", default=os.getenv("GENESIS_BACKEND", "gpu"), choices=("cpu", "gpu"), help="Genesis backend (default gpu, auto-fallback to cpu if CUDA unavailable).")
     return parser.parse_args()
 
 

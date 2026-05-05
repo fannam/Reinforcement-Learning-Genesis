@@ -47,6 +47,8 @@ robots/modular_humanoid/
     torso.xml
     right_arm.xml
     left_arm.xml
+    right_hand.xml
+    left_hand.xml
     right_leg.xml
     left_leg.xml
     actuators.xml
@@ -54,6 +56,14 @@ robots/modular_humanoid/
 ```
 
 `modular_humanoid.xml` là file chính. Các file trong `parts/` được ráp bằng MJCF `<include>`.
+
+Kinematic structure hiện tại:
+
+- 45 actuated hinge joints, cộng với floating root `freejoint`.
+- Torso 3 DOF: `abdomen_yaw`, `abdomen_roll`, `abdomen_pitch`.
+- Neck 2 DOF: `neck_yaw`, `neck_pitch`.
+- Mỗi tay 13 DOF: shoulder 3 DOF, forearm yaw, elbow pitch, wrist 2 DOF, hand 6 DOF.
+- Mỗi chân 7 DOF: hip 3 DOF, knee pitch, ankle 2 DOF, toe pitch.
 
 ## Cài Đặt Từ Đầu
 
@@ -142,16 +152,18 @@ Mở viewer:
 SHOW_VIEWER=1 python scripts/run_sim.py --steps 10000
 ```
 
-Chạy bằng CPU:
+Mặc định backend là **GPU** (auto-fallback sang CPU nếu CUDA không sẵn).
+
+Chạy bằng GPU (default):
+
+```bash
+python scripts/run_sim.py --steps 300
+```
+
+Ép chạy bằng CPU:
 
 ```bash
 GENESIS_BACKEND=cpu python scripts/run_sim.py --steps 300
-```
-
-Chạy bằng GPU:
-
-```bash
-GENESIS_BACKEND=gpu python scripts/run_sim.py --steps 300
 ```
 
 Chạy trực tiếp qua `test.py`:
@@ -228,7 +240,29 @@ echo $DISPLAY
 SHOW_VIEWER=1 PYOPENGL_PLATFORM=glx python scripts/run_sim.py --steps 10000
 ```
 
-Nếu simulation chậm:
+Nếu vẫn gặp lỗi `Unable to initialize an OpenGL 3+ context`, kiểm tra OpenGL:
+
+```bash
+glxinfo -B
+```
+
+`OpenGL version` cần hỗ trợ OpenGL 3+. Trên WSLg, thử chạy với cấu hình Mesa/D3D12:
+
+```bash
+SHOW_VIEWER=1 \
+GENESIS_GL_PLATFORM=glx \
+GALLIUM_DRIVER=d3d12 \
+MESA_D3D12_DEFAULT_ADAPTER_NAME=NVIDIA \
+python scripts/run_sim.py --steps 10000
+```
+
+Nếu lỗi liên quan OpenGL context trong viewer thread, thử tắt viewer thread:
+
+```bash
+SHOW_VIEWER=1 GENESIS_VIEWER_THREAD=0 python scripts/run_sim.py --steps 10000
+```
+
+Nếu GPU gặp lỗi (driver, CUDA, kernel compile), ép CPU làm fallback:
 
 ```bash
 GENESIS_BACKEND=cpu python scripts/run_sim.py --steps 100

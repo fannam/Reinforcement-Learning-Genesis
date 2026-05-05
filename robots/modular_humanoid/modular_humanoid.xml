@@ -1,11 +1,46 @@
 <mujoco model="modular_humanoid">
   <compiler angle="radian" inertiafromgeom="true" autolimits="true"/>
-  <option timestep="0.01" gravity="0 0 -9.81" integrator="RK4"/>
+  <option timestep="0.005" gravity="0 0 -9.81" integrator="RK4"/>
 
   <default>
     <joint damping="1.0" armature="0.02" limited="true"/>
     <geom density="650" friction="1.0 0.1 0.1"/>
-    <motor ctrllimited="true" ctrlrange="-1 1"/>
+    <site size="0.01" group="3"/>
+
+    <!-- PD position-actuator classes. forcerange caps output torque [N·m]. -->
+    <default class="abdomen">
+      <position kp="200" kv="20" forcerange="-160 160"/>
+    </default>
+    <default class="neck">
+      <position kp="40" kv="4" forcerange="-25 25"/>
+    </default>
+    <default class="shoulder">
+      <position kp="160" kv="12" forcerange="-90 90"/>
+    </default>
+    <default class="forearm">
+      <position kp="80" kv="6" forcerange="-45 45"/>
+    </default>
+    <default class="elbow">
+      <position kp="120" kv="9" forcerange="-70 70"/>
+    </default>
+    <default class="wrist">
+      <position kp="50" kv="4" forcerange="-25 25"/>
+    </default>
+    <default class="finger">
+      <position kp="6" kv="0.6" forcerange="-5 5"/>
+    </default>
+    <default class="hip">
+      <position kp="280" kv="16" forcerange="-220 220"/>
+    </default>
+    <default class="knee">
+      <position kp="320" kv="18" forcerange="-260 260"/>
+    </default>
+    <default class="ankle">
+      <position kp="120" kv="8" forcerange="-90 90"/>
+    </default>
+    <default class="toe">
+      <position kp="40" kv="3" forcerange="-30 30"/>
+    </default>
   </default>
 
   <asset>
@@ -17,7 +52,15 @@
     <include file="parts/body.xml"/>
   </worldbody>
 
+  <contact>
+    <include file="parts/contacts.xml"/>
+  </contact>
+
   <actuator>
     <include file="parts/actuators.xml"/>
   </actuator>
+
+  <sensor>
+    <include file="parts/sensors.xml"/>
+  </sensor>
 </mujoco>

@@ -1,15 +1,56 @@
 <mujoco>
-  <motor name="abdomen_pitch_motor" joint="abdomen_pitch" gear="80"/>
-  <motor name="shoulder_pitch_right_motor" joint="shoulder_pitch_right" gear="45"/>
-  <motor name="elbow_right_motor" joint="elbow_right" gear="35"/>
-  <motor name="wrist_pitch_right_motor" joint="wrist_pitch_right" gear="20"/>
-  <motor name="shoulder_pitch_left_motor" joint="shoulder_pitch_left" gear="45"/>
-  <motor name="elbow_left_motor" joint="elbow_left" gear="35"/>
-  <motor name="wrist_pitch_left_motor" joint="wrist_pitch_left" gear="20"/>
-  <motor name="hip_pitch_right_motor" joint="hip_pitch_right" gear="85"/>
-  <motor name="knee_right_motor" joint="knee_right" gear="85"/>
-  <motor name="ankle_pitch_right_motor" joint="ankle_pitch_right" gear="55"/>
-  <motor name="hip_pitch_left_motor" joint="hip_pitch_left" gear="85"/>
-  <motor name="knee_left_motor" joint="knee_left" gear="85"/>
-  <motor name="ankle_pitch_left_motor" joint="ankle_pitch_left" gear="55"/>
+  <!-- All actuators are joint-space PD position controllers.
+       ctrlrange = joint range, kp/kv/forcerange come from default classes
+       declared in modular_humanoid.xml. -->
+
+  <position name="abdomen_yaw_motor" joint="abdomen_yaw" class="abdomen" ctrlrange="-0.65 0.65"/>
+  <position name="abdomen_roll_motor" joint="abdomen_roll" class="abdomen" ctrlrange="-0.45 0.45"/>
+  <position name="abdomen_pitch_motor" joint="abdomen_pitch" class="abdomen" ctrlrange="-0.55 0.55"/>
+
+  <position name="neck_yaw_motor" joint="neck_yaw" class="neck" ctrlrange="-0.9 0.9"/>
+  <position name="neck_pitch_motor" joint="neck_pitch" class="neck" ctrlrange="-0.55 0.55"/>
+
+  <position name="shoulder_yaw_right_motor" joint="shoulder_yaw_right" class="shoulder" ctrlrange="-1.2 1.2"/>
+  <position name="shoulder_roll_right_motor" joint="shoulder_roll_right" class="shoulder" ctrlrange="-1.1 0.6"/>
+  <position name="shoulder_pitch_right_motor" joint="shoulder_pitch_right" class="shoulder" ctrlrange="-1.9 1.2"/>
+  <position name="forearm_yaw_right_motor" joint="forearm_yaw_right" class="forearm" ctrlrange="-1.3 1.3"/>
+  <position name="elbow_pitch_right_motor" joint="elbow_pitch_right" class="elbow" ctrlrange="-1.8 0.05"/>
+  <position name="wrist_yaw_right_motor" joint="wrist_yaw_right" class="wrist" ctrlrange="-0.9 0.9"/>
+  <position name="wrist_pitch_right_motor" joint="wrist_pitch_right" class="wrist" ctrlrange="-0.8 0.8"/>
+  <position name="thumb_abduction_right_motor" joint="thumb_abduction_right" class="finger" ctrlrange="-0.55 0.65"/>
+  <position name="thumb_flexion_right_motor" joint="thumb_flexion_right" class="finger" ctrlrange="-0.15 1.1"/>
+  <position name="index_flexion_right_motor" joint="index_flexion_right" class="finger" ctrlrange="-0.1 1.25"/>
+  <position name="index_tip_right_motor" joint="index_tip_right" class="finger" ctrlrange="-0.1 1.0"/>
+  <position name="middle_flexion_right_motor" joint="middle_flexion_right" class="finger" ctrlrange="-0.1 1.25"/>
+  <position name="middle_tip_right_motor" joint="middle_tip_right" class="finger" ctrlrange="-0.1 1.0"/>
+
+  <position name="shoulder_yaw_left_motor" joint="shoulder_yaw_left" class="shoulder" ctrlrange="-1.2 1.2"/>
+  <position name="shoulder_roll_left_motor" joint="shoulder_roll_left" class="shoulder" ctrlrange="-0.6 1.1"/>
+  <position name="shoulder_pitch_left_motor" joint="shoulder_pitch_left" class="shoulder" ctrlrange="-1.9 1.2"/>
+  <position name="forearm_yaw_left_motor" joint="forearm_yaw_left" class="forearm" ctrlrange="-1.3 1.3"/>
+  <position name="elbow_pitch_left_motor" joint="elbow_pitch_left" class="elbow" ctrlrange="-1.8 0.05"/>
+  <position name="wrist_yaw_left_motor" joint="wrist_yaw_left" class="wrist" ctrlrange="-0.9 0.9"/>
+  <position name="wrist_pitch_left_motor" joint="wrist_pitch_left" class="wrist" ctrlrange="-0.8 0.8"/>
+  <position name="thumb_abduction_left_motor" joint="thumb_abduction_left" class="finger" ctrlrange="-0.65 0.55"/>
+  <position name="thumb_flexion_left_motor" joint="thumb_flexion_left" class="finger" ctrlrange="-0.15 1.1"/>
+  <position name="index_flexion_left_motor" joint="index_flexion_left" class="finger" ctrlrange="-0.1 1.25"/>
+  <position name="index_tip_left_motor" joint="index_tip_left" class="finger" ctrlrange="-0.1 1.0"/>
+  <position name="middle_flexion_left_motor" joint="middle_flexion_left" class="finger" ctrlrange="-0.1 1.25"/>
+  <position name="middle_tip_left_motor" joint="middle_tip_left" class="finger" ctrlrange="-0.1 1.0"/>
+
+  <position name="hip_yaw_right_motor" joint="hip_yaw_right" class="hip" ctrlrange="-0.8 0.8"/>
+  <position name="hip_roll_right_motor" joint="hip_roll_right" class="hip" ctrlrange="-0.55 0.45"/>
+  <position name="hip_pitch_right_motor" joint="hip_pitch_right" class="hip" ctrlrange="-1.25 1.0"/>
+  <position name="knee_pitch_right_motor" joint="knee_pitch_right" class="knee" ctrlrange="-1.9 0.05"/>
+  <position name="ankle_roll_right_motor" joint="ankle_roll_right" class="ankle" ctrlrange="-0.45 0.45"/>
+  <position name="ankle_pitch_right_motor" joint="ankle_pitch_right" class="ankle" ctrlrange="-0.75 0.75"/>
+  <position name="toe_pitch_right_motor" joint="toe_pitch_right" class="toe" ctrlrange="-0.35 0.55"/>
+
+  <position name="hip_yaw_left_motor" joint="hip_yaw_left" class="hip" ctrlrange="-0.8 0.8"/>
+  <position name="hip_roll_left_motor" joint="hip_roll_left" class="hip" ctrlrange="-0.45 0.55"/>
+  <position name="hip_pitch_left_motor" joint="hip_pitch_left" class="hip" ctrlrange="-1.25 1.0"/>
+  <position name="knee_pitch_left_motor" joint="knee_pitch_left" class="knee" ctrlrange="-1.9 0.05"/>
+  <position name="ankle_roll_left_motor" joint="ankle_roll_left" class="ankle" ctrlrange="-0.45 0.45"/>
+  <position name="ankle_pitch_left_motor" joint="ankle_pitch_left" class="ankle" ctrlrange="-0.75 0.75"/>
+  <position name="toe_pitch_left_motor" joint="toe_pitch_left" class="toe" ctrlrange="-0.35 0.55"/>
 </mujoco>

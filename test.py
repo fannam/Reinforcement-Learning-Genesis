@@ -6,23 +6,32 @@ PROJECT_ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(PROJECT_ROOT / "src"))
 
 from robotics_genesis.controllers import default_modular_gait
+from robotics_genesis.viewer_env import configure_pyglet_options, configure_viewer_environment
 from robotics_genesis.xml_robot import get_1d_joint_names, prepare_mjcf_for_genesis
 
 show_viewer = os.getenv("SHOW_VIEWER", "0") == "1"
-if show_viewer:
-    os.environ["PYOPENGL_PLATFORM"] = "glx"
-    os.environ.setdefault("GALLIUM_DRIVER", "d3d12")
-    os.environ.setdefault("MESA_D3D12_DEFAULT_ADAPTER_NAME", "NVIDIA")
+configure_viewer_environment(show_viewer)
 
 import pyglet
 
-pyglet.options["debug_gl"] = False
+configure_pyglet_options(pyglet)
 
 import genesis as gs
 
 
+def _cuda_available() -> bool:
+    try:
+        import torch
+    except ImportError:
+        return False
+    return torch.cuda.is_available()
+
+
 def select_backend(name: str):
-    if name == "gpu":
+    if name in ("gpu", "cuda"):
+        if not _cuda_available():
+            print("[test] CUDA not available, falling back to CPU backend.")
+            return gs.cpu
         return gs.gpu
     if name == "cpu":
         return gs.cpu
@@ -38,13 +47,14 @@ joint_index = {name: index for index, name in enumerate(joint_order)}
 gait = default_modular_gait()
 genesis_robot_xml = prepare_mjcf_for_genesis(robot_xml, PROJECT_ROOT / "outputs" / "generated")
 
-backend = os.getenv("GENESIS_BACKEND", "cpu").lower()
+backend = os.getenv("GENESIS_BACKEND", "gpu").lower()
 gs.init(backend=select_backend(backend))
 
 viewer_options = None
 if show_viewer:
+    run_in_thread = os.getenv("GENESIS_VIEWER_THREAD", "1") != "0"
     viewer_options = gs.options.ViewerOptions(
-        run_in_thread=True,
+        run_in_thread=run_in_thread,
         res=(960, 640),
     )
 
