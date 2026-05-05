@@ -245,5 +245,6 @@ Nếu thấy warning self-collision ở neutral pose, đó thường là dấu h
 ## Tài Liệu Nội Bộ
 
 - `docs/robot_xml_guide.md`: hướng dẫn viết MJCF/XML.
+- `docs/parts_coding_guide.md`: hướng dẫn code từng file trong `robots/modular_humanoid/parts/`.
 - `docs/humanoid_development_plan.md`: roadmap phát triển humanoid.
 - `robots/modular_humanoid/README.md`: mô tả robot modular.
