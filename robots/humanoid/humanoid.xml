@@ -1,10 +1,29 @@
 <mujoco model="modular_humanoid">
+  <!--
+  inertiafromgeom="true": tự tính khối lượng/quán tính từ geom (density + hình học)
+  autolimits="true": tự bật limited khi joint có range, khỏi phải khai báo limited="true" thủ công
+  -->
   <compiler angle="radian" inertiafromgeom="true" autolimits="true" />
+  <!--
+  integrator="RK4" (Runge-Kutta bậc 4) thay vì Euler mặc định
+  chính xác hơn cho hệ phi tuyến nhiều khớp như humanoid, đổi lại đắt hơn ~4 lần/step
+  timestep nhỏ (5ms) để ổn định khi có va chạm chân-sàn và contact lực lớn
+  -->
   <option timestep="0.005" gravity="0 0 -9.81" integrator="RK4" />
   <default>
+    <!--
+    Default toàn cục: damping/armature cho mọi joint (giảm dao động số),
+    density geom 650 kg/m^3 (xấp xỉ mô cơ thể người), friction trượt/xoay/lăn
+    -->
     <joint damping="1.0" armature="0.02" limited="true" />
     <geom density="650" friction="1.0 0.1 0.1" />
     <site size="0.01" group="3" />
+    <!--
+    Mỗi default class định nghĩa gain (kp), damping (kv), forcerange cho actuator position
+    nhóm theo bộ phận cơ thể: khớp lớn (hip/knee) cần kp & lực lớn,
+    khớp nhỏ (finger/neck) kp & lực nhỏ
+    actuator dưới chỉ cần đặt class="..." để kế thừa toàn bộ tham số
+    -->
     <default class="abdomen">
       <position kp="200" kv="20" forcerange="-160 160" />
     </default>
@@ -53,6 +72,11 @@
     <light name="key_light" pos="1 -3 4" dir="-0.2 0.6 -1" diffuse="0.8 0.8 0.8" />
     <camera name="front" pos="2.2 -3.0 1.4" xyaxes="0.80 0.60 0 -0.24 0.32 0.92" />
     <geom name="floor" type="plane" size="4 4 0.05" material="floor_mat" />
+    <!--
+    pelvis là root body của robot: gắn freejoint (6 DoF tự do tịnh tiến + xoay)
+    để robot tự do di chuyển trong world, không bị neo cố định
+    site pelvis_imu là điểm gắn cảm biến IMU ảo (gyro, accel, framequat) ở phần dưới
+    -->
     <body name="pelvis" pos="0 0 1.08">
       <freejoint name="root" />
       <geom name="pelvis_geom" type="capsule" fromto="-0.14 0 0 0.14 0 0" size="0.09" material="pelvis_mat" />
@@ -71,6 +95,12 @@
             <geom name="chest_geom" type="box" pos="0 0 0.28" size="0.12 0.18 0.16" material="torso_mat" />
             <body name="neck_yaw" pos="0 0 0.50">
               <joint name="neck_yaw" type="hinge" axis="0 0 1" range="-0.9 0.9" />
+              <!--
+              contype="0" conaffinity="0": tắt hoàn toàn va chạm cho geom này
+              các sphere/capsule đánh dấu khớp (joint_mat) chỉ để hiển thị,
+              không cần tham gia tính contact - giảm số cặp va chạm phải kiểm tra
+              cơ chế bitwise AND giữa contype và conaffinity giống drone.xml
+              -->
               <geom name="neck_geom" type="capsule" fromto="0 0 0 0 0 0.09" size="0.035" material="joint_mat" contype="0" conaffinity="0" />
               <body name="head" pos="0 0 0.11">
                 <joint name="neck_pitch" type="hinge" axis="0 1 0" range="-0.55 0.55" />
@@ -271,6 +301,13 @@
       </body>
     </body>
   </worldbody>
+  <!--
+  Khối <contact><exclude>: liệt kê các cặp body KHÔNG cần kiểm tra va chạm
+  Mặc định MuJoCo kiểm tra mọi cặp geom có contype/conaffinity khớp,
+  với humanoid nhiều khớp -> rất tốn. Loại bỏ self-collision giữa các bộ phận
+  liền kề (ví dụ pelvis-thigh chạm nhau là bình thường khi co chân)
+  để engine không sinh contact giả gây giật/mất ổn định
+  -->
   <contact>
     <exclude body1="pelvis" body2="right_thigh" />
     <exclude body1="pelvis" body2="left_thigh" />
@@ -301,6 +338,12 @@
     <exclude body1="right_hand" body2="left_thigh" />
     <exclude body1="left_hand" body2="right_thigh" />
   </contact>
+  <!--
+  Mỗi <position> là PD controller (kp, kv lấy từ default class tương ứng)
+  ctrlrange phải khớp range của joint, nếu vượt sẽ bị clamp
+  attribute class="abdomen|hip|knee|..." kế thừa kp/kv/forcerange đã định nghĩa ở <default>
+  -> chỉ cần đổi gain ở 1 chỗ là đổi cho cả nhóm khớp
+  -->
   <actuator>
     <position name="abdomen_yaw_motor" joint="abdomen_yaw" class="abdomen" ctrlrange="-0.65 0.65" />
     <position name="abdomen_roll_motor" joint="abdomen_roll" class="abdomen" ctrlrange="-0.45 0.45" />
@@ -348,6 +391,13 @@
     <position name="ankle_pitch_left_motor" joint="ankle_pitch_left" class="ankle" ctrlrange="-0.75 0.75" />
     <position name="toe_pitch_left_motor" joint="toe_pitch_left" class="toe" ctrlrange="-0.35 0.55" />
   </actuator>
+  <!--
+  Cảm biến ảo gắn vào site (IMU) hoặc body
+  pelvis IMU: gyro + accel + linvel + quat -> dữ liệu ước lượng tư thế thân
+  head IMU: gyro + accel + quat cho góc nhìn
+  ankle force/torque + sole/heel/toe touch -> phát hiện tiếp đất, tính ZMP, GRF
+  framelinvel/framepos của bàn chân: hữu ích cho controller theo dõi swing leg
+  -->
   <sensor>
     <gyro name="pelvis_gyro" site="pelvis_imu" />
     <accelerometer name="pelvis_accel" site="pelvis_imu" />
