@@ -3,15 +3,15 @@
 This repo uses **Genesis** and **MJCF/XML** to simulate a quadcopter in a warehouse scene. The default workflow is now drone-first:
 
 ```text
-robots/drone/drone.xml      Quadcopter MJCF
-worlds/warehouse.xml        Generated warehouse MJCF
+assets/robots/drone/drone.xml      Quadcopter MJCF
+assets/worlds/warehouse.xml        Generated warehouse MJCF
 scripts/gen_warehouse.py    Deterministic warehouse generator
 scripts/run_warehouse.py    Drone + warehouse simulation runner
 src/robotics_genesis/       Shared Python utilities and controllers
 tests/                      Fast structure/controller tests
 ```
 
-The humanoid files under `robots/humanoid/` are legacy/secondary assets. Use `scripts/run_warehouse.py` for the primary simulation.
+The humanoid files under `assets/robots/humanoid/` are legacy/secondary assets. Use `scripts/run_warehouse.py` for the primary simulation.
 
 ## Requirements
 
@@ -58,8 +58,8 @@ PY
 Validate XML:
 
 ```bash
-.venv/bin/python scripts/validate_xml.py robots/drone/drone.xml --mujoco
-.venv/bin/python scripts/validate_xml.py worlds/warehouse.xml --mujoco
+.venv/bin/python scripts/validate_xml.py assets/robots/drone/drone.xml --mujoco
+.venv/bin/python scripts/validate_xml.py assets/worlds/warehouse.xml --mujoco
 ```
 
 Regenerate the warehouse:
@@ -148,14 +148,14 @@ Fast tests avoid requiring Genesis runtime:
 Optional manual smoke checks:
 
 ```bash
-.venv/bin/python scripts/validate_xml.py robots/drone/drone.xml --mujoco
-.venv/bin/python scripts/validate_xml.py worlds/warehouse.xml --mujoco
+.venv/bin/python scripts/validate_xml.py assets/robots/drone/drone.xml --mujoco
+.venv/bin/python scripts/validate_xml.py assets/worlds/warehouse.xml --mujoco
 SHOW_VIEWER=0 GENESIS_BACKEND=cpu .venv/bin/python scripts/run_warehouse.py --steps 100 --backend cpu
 ```
 
 ## Notes
 
-- `robots/drone/drone.xml` contains a visual/collision split: visual geoms are group `2`, collision geoms are group `3`.
+- `assets/robots/drone/drone.xml` contains a visual/collision split: visual geoms are group `2`, collision geoms are group `3`.
 - Genesis does not currently use the MJCF site-based drone actuators in this setup, so `HoverController` applies a body-frame wrench to the chassis link.
 - `scripts/run_warehouse.py` strips the drone's standalone floor/lights before spawning it into the warehouse scene.
 - Generated files under `outputs/` are ignored except `.gitkeep` placeholders.

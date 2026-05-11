@@ -5,14 +5,14 @@ This folder keeps the legacy humanoid MJCF as a secondary asset. The repo's prim
 Main file:
 
 ```text
-robots/humanoid/humanoid.xml
+assets/robots/humanoid/humanoid.xml
 ```
 
 The humanoid model has 45 actuated hinge joints plus a floating root `freejoint`. It still works with the legacy single-robot runner:
 
 ```bash
-.venv/bin/python scripts/validate_xml.py robots/humanoid/humanoid.xml --mujoco
-SHOW_VIEWER=1 .venv/bin/python scripts/run_sim.py --robot robots/humanoid/humanoid.xml --steps 10000
+.venv/bin/python scripts/validate_xml.py assets/robots/humanoid/humanoid.xml --mujoco
+SHOW_VIEWER=1 .venv/bin/python scripts/run_sim.py --robot assets/robots/humanoid/humanoid.xml --steps 10000
 ```
 
 Use `scripts/run_warehouse.py` for new drone + warehouse work.

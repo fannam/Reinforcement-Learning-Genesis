@@ -125,8 +125,8 @@ class WarehouseDroneEnv(Env):
 
     def __init__(
         self,
-        world_xml: str | Path = "worlds/warehouse.xml",
-        drone_xml: str | Path = "robots/drone/drone.xml",
+        world_xml: str | Path = "assets/worlds/warehouse.xml",
+        drone_xml: str | Path = "assets/robots/drone/drone.xml",
         *,
         backend: str = "cpu",
         episode_steps: int = 1000,

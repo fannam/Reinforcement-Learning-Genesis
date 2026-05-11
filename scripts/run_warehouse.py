@@ -87,8 +87,8 @@ def _is_out_of_bounds(pos) -> bool:
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Run the drone in the warehouse Genesis scene.")
-    parser.add_argument("--world", default="worlds/warehouse.xml", help="Path to warehouse MJCF.")
-    parser.add_argument("--drone", default="robots/drone/drone.xml",
+    parser.add_argument("--world", default="assets/worlds/warehouse.xml", help="Path to warehouse MJCF.")
+    parser.add_argument("--drone", default="assets/robots/drone/drone.xml",
                         help="Drone MJCF spawned in warehouse. Pass empty string to disable.")
     parser.add_argument("--drone-pos", nargs=3, type=float, default=[-2.0, -2.0, 1.5],
                         metavar=("X", "Y", "Z"),

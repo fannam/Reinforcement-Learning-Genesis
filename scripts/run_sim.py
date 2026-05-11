@@ -18,7 +18,7 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--robot",
-        default="robots/humanoid/humanoid.xml",
+        default="assets/robots/humanoid/humanoid.xml",
         help="Path to robot MJCF XML. Use scripts/run_warehouse.py for the primary drone + warehouse workflow.",
     )
     parser.add_argument("--steps", type=int, default=int(os.getenv("STEPS", "1000")), help="Number of simulation steps.")

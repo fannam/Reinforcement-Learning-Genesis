@@ -1,6 +1,6 @@
 env:
-  world_xml: worlds/warehouse.xml
-  drone_xml: robots/drone/drone.xml
+  world_xml: assets/worlds/warehouse.xml
+  drone_xml: assets/robots/drone/drone.xml
   backend: cpu
   episode_steps: 1000
   control_skip: 4

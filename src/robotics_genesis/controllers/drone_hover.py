@@ -1,4 +1,4 @@
-"""Hover controller for the quadcopter MJCF in `robots/drone/drone.xml`.
+"""Hover controller for the quadcopter MJCF in `assets/robots/drone/drone.xml`.
 
 Genesis ignores MJCF site-based actuators (it only parses joint/tendon
 transmissions). We apply a body-frame wrench (force + torque) on the chassis

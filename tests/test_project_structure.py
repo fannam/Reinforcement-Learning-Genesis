@@ -14,8 +14,8 @@ from robotics_genesis.xml_robot import get_1d_joint_names, parse_mjcf
 from scripts.run_warehouse import strip_world_decorations
 
 
-DRONE_XML = PROJECT_ROOT / "robots" / "drone" / "drone.xml"
-WAREHOUSE_XML = PROJECT_ROOT / "worlds" / "warehouse.xml"
+DRONE_XML = PROJECT_ROOT / "assets" / "robots" / "drone" / "drone.xml"
+WAREHOUSE_XML = PROJECT_ROOT / "assets" / "worlds" / "warehouse.xml"
 
 
 def test_drone_xml_is_valid_and_free_body():

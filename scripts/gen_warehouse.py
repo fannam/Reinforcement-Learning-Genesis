@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate worlds/warehouse.xml — Amazon-style fulfillment center.
+"""Generate assets/worlds/warehouse.xml — Amazon-style fulfillment center.
 
 Layout: back-to-back pallet rack rows + Kiva pod field + loading dock +
 packing stations + conveyors + charging pads. Deterministic via SEED.
@@ -10,7 +10,7 @@ import random
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-OUTPUT = PROJECT_ROOT / "worlds" / "warehouse.xml"
+OUTPUT = PROJECT_ROOT / "assets" / "worlds" / "warehouse.xml"
 
 SEED = 11
 RNG = random.Random(SEED)

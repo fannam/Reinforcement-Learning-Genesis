@@ -1,6 +1,6 @@
 robot:
   name: drone
-  xml: robots/drone/drone.xml
+  xml: assets/robots/drone/drone.xml
 
 world:
-  xml: worlds/warehouse.xml
+  xml: assets/worlds/warehouse.xml

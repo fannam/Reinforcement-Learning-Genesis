@@ -4,8 +4,8 @@ This plan turns the current drone + warehouse simulation into a trainable reinfo
 
 Current baseline:
 
-- Drone MJCF: `robots/drone/drone.xml`
-- Warehouse MJCF: `worlds/warehouse.xml`
+- Drone MJCF: `assets/robots/drone/drone.xml`
+- Warehouse MJCF: `assets/worlds/warehouse.xml`
 - Warehouse runner: `scripts/run_warehouse.py`
 - Low-level stabilizer: `HoverController`
 - Mission helper: `WaypointMission`
@@ -73,8 +73,8 @@ Constructor arguments:
 
 ```python
 WarehouseDroneEnv(
-    world_xml="worlds/warehouse.xml",
-    drone_xml="robots/drone/drone.xml",
+    world_xml="assets/worlds/warehouse.xml",
+    drone_xml="assets/robots/drone/drone.xml",
     backend="cpu",
     episode_steps=1000,
     control_skip=4,
