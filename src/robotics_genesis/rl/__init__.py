@@ -17,11 +17,11 @@ __all__ = [
 
 def __getattr__(name: str):
     if name == "WarehouseDroneEnv":
-        from robotics_genesis.rl.warehouse_env import WarehouseDroneEnv
+        from robotics_genesis.rl.envs.warehouse_drone import WarehouseDroneEnv
 
         return WarehouseDroneEnv
     if name == "DepthCameraConfig":
-        from robotics_genesis.rl.warehouse_env import DepthCameraConfig
+        from robotics_genesis.rl.envs.warehouse_drone import DepthCameraConfig
 
         return DepthCameraConfig
     raise AttributeError(name)

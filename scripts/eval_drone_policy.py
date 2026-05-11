@@ -16,7 +16,7 @@ from robotics_genesis.paths import project_path
 from robotics_genesis.rl.ppo import load_checkpoint, observation_to_tensor
 from robotics_genesis.rl.rewards import RewardConfig
 from robotics_genesis.rl.scenarios import ScenarioConfig
-from robotics_genesis.rl.warehouse_env import DepthCameraConfig, WarehouseDroneEnv
+from robotics_genesis.rl.envs.warehouse_drone import DepthCameraConfig, WarehouseDroneEnv
 
 
 def parse_args() -> argparse.Namespace:

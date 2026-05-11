@@ -21,7 +21,7 @@ from robotics_genesis.rl.policy import ActorCritic, PolicyConfig
 from robotics_genesis.rl.ppo import PPOConfig, save_checkpoint, train_ppo
 from robotics_genesis.rl.rewards import RewardConfig
 from robotics_genesis.rl.scenarios import ScenarioConfig
-from robotics_genesis.rl.warehouse_env import DepthCameraConfig, WarehouseDroneEnv
+from robotics_genesis.rl.envs.warehouse_drone import DepthCameraConfig, WarehouseDroneEnv
 
 
 def parse_args() -> argparse.Namespace:

@@ -93,7 +93,7 @@ def test_scenario_sampler_respects_distance_and_deterministic_mode():
 
 def test_warehouse_env_spaces_without_building_genesis():
     gymnasium = pytest.importorskip("gymnasium")
-    from robotics_genesis.rl.warehouse_env import WarehouseDroneEnv
+    from robotics_genesis.rl.envs.warehouse_drone import WarehouseDroneEnv
 
     env = WarehouseDroneEnv(randomize=False, episode_steps=5, control_skip=1)
     try:
@@ -201,7 +201,7 @@ def test_checkpoint_round_trip_multimodal(tmp_path):
 @pytest.mark.skipif(os.getenv("RUN_GENESIS_TESTS") != "1", reason="Genesis env smoke tests are opt-in.")
 def test_warehouse_env_reset_and_step_smoke():
     pytest.importorskip("gymnasium")
-    from robotics_genesis.rl.warehouse_env import WarehouseDroneEnv
+    from robotics_genesis.rl.envs.warehouse_drone import WarehouseDroneEnv
 
     env = WarehouseDroneEnv(
         backend="cpu",
