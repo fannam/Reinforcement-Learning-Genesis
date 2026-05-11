@@ -9,7 +9,7 @@ from pathlib import Path
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PROJECT_ROOT / "src"))
 
-from robotics_genesis.simulation import run_genesis_simulation
+from robotics_genesis.sim import run_genesis_simulation
 
 
 def parse_args() -> argparse.Namespace:
