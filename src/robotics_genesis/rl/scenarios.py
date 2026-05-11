@@ -5,6 +5,8 @@ from typing import Sequence
 
 import numpy as np
 
+from robotics_genesis.mjcf.aabb import point_inside_any
+
 
 Vector3 = tuple[float, float, float]
 
@@ -25,8 +27,9 @@ class ScenarioConfig:
     goal_z: tuple[float, float] = (1.8, 2.8)
     min_goal_distance: float = 1.0
     max_attempts: int = 100
-    deterministic_spawn: Vector3 = (-2.0, -2.0, 2.0)
-    deterministic_goal: Vector3 = (-1.0, -1.5, 2.0)
+    obstacle_margin: float = 0.4
+    deterministic_spawn: Vector3 = (-2.0, 0.0, 2.0)
+    deterministic_goal: Vector3 = (2.0, 0.0, 2.0)
 
 
 def _uniform3(
@@ -40,12 +43,27 @@ def _distance(a: Sequence[float], b: Sequence[float]) -> float:
     return float(np.linalg.norm(np.asarray(a, dtype=np.float32) - np.asarray(b, dtype=np.float32)))
 
 
+def _hits_obstacle(point: Vector3, obstacles: np.ndarray | None, margin: float) -> bool:
+    if obstacles is None or obstacles.size == 0:
+        return False
+    return point_inside_any(point, obstacles, margin=margin)
+
+
 def sample_spawn_goal(
     rng: np.random.Generator,
     config: ScenarioConfig = ScenarioConfig(),
     *,
     randomize: bool = True,
+    obstacles: np.ndarray | None = None,
 ) -> Scenario:
+    """Sample a (spawn, goal) pair. When `obstacles` is provided (Nx6 AABB
+    array), reject samples whose spawn or goal lies inside any obstacle
+    expanded by `config.obstacle_margin`.
+
+    Falls back to the last sampled pair (or deterministic) after
+    `config.max_attempts` failures so callers always receive a Scenario.
+    """
+    margin = float(config.obstacle_margin)
     if not randomize:
         return Scenario(config.deterministic_spawn, config.deterministic_goal)
 
@@ -58,7 +76,12 @@ def sample_spawn_goal(
         spawn = _uniform3(rng, spawn_ranges)
         goal = _uniform3(rng, goal_ranges)
         last_spawn, last_goal = spawn, goal
-        if _distance(spawn, goal) >= config.min_goal_distance:
-            return Scenario(spawn, goal)
+        if _distance(spawn, goal) < config.min_goal_distance:
+            continue
+        if _hits_obstacle(spawn, obstacles, margin):
+            continue
+        if _hits_obstacle(goal, obstacles, margin):
+            continue
+        return Scenario(spawn, goal)
 
     return Scenario(last_spawn, last_goal)

@@ -91,6 +91,57 @@ def test_scenario_sampler_respects_distance_and_deterministic_mode():
     assert deterministic.goal == config.deterministic_goal
 
 
+def test_load_collision_aabbs_from_warehouse():
+    from pathlib import Path
+
+    from robotics_genesis.mjcf import load_collision_aabbs, point_inside_any
+
+    project_root = Path(__file__).resolve().parents[1]
+    aabbs = load_collision_aabbs(project_root / "assets" / "worlds" / "warehouse.xml")
+
+    assert aabbs.ndim == 2 and aabbs.shape[1] == 6
+    assert aabbs.shape[0] > 0
+    assert aabbs.dtype == np.float32
+    # Walls bound the arena around x in [-22, 22], y in [-14, 14].
+    assert aabbs[:, 3].max() >= 22.0
+    assert aabbs[:, 4].max() >= 14.0
+    # Wall geom should engulf a point well inside it.
+    assert point_inside_any([-22.0, 0.0, 3.0], aabbs, margin=0.0)
+    # Center aisle at (0, 0, 2) is free.
+    assert not point_inside_any([0.0, 0.0, 2.0], aabbs, margin=0.4)
+
+
+def test_point_inside_any_handles_margin_and_empty():
+    from robotics_genesis.mjcf import point_inside_any
+
+    aabbs = np.array([[0.0, 0.0, 0.0, 1.0, 1.0, 1.0]], dtype=np.float32)
+    assert point_inside_any([0.5, 0.5, 0.5], aabbs)
+    assert not point_inside_any([1.5, 0.5, 0.5], aabbs)
+    assert point_inside_any([1.3, 0.5, 0.5], aabbs, margin=0.4)
+    assert not point_inside_any([0.5, 0.5, 0.5], np.zeros((0, 6), dtype=np.float32))
+
+
+def test_sample_spawn_goal_avoids_obstacles():
+    # Single obstacle spanning the entire spawn/goal box in z, half the x range.
+    obstacles = np.array([[-3.0, -3.0, 0.0, 0.0, 3.0, 5.0]], dtype=np.float32)
+    config = ScenarioConfig(
+        spawn_x=(-3.0, 3.0),
+        spawn_y=(-3.0, 3.0),
+        spawn_z=(1.0, 2.0),
+        goal_x=(-3.0, 3.0),
+        goal_y=(-3.0, 3.0),
+        goal_z=(1.0, 2.0),
+        min_goal_distance=0.5,
+        obstacle_margin=0.0,
+    )
+    rng = np.random.default_rng(0)
+
+    for _ in range(20):
+        scenario = sample_spawn_goal(rng, config, randomize=True, obstacles=obstacles)
+        assert scenario.spawn[0] > 0.0 or scenario.spawn[0] < -3.0
+        assert scenario.goal[0] > 0.0 or scenario.goal[0] < -3.0
+
+
 def test_warehouse_env_spaces_without_building_genesis():
     gymnasium = pytest.importorskip("gymnasium")
     from robotics_genesis.rl.envs.warehouse_drone import WarehouseDroneEnv

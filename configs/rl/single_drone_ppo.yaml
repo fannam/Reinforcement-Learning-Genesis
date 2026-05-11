@@ -19,8 +19,9 @@ scenario:
   goal_z: [1.8, 2.8]
   min_goal_distance: 1.0
   max_attempts: 100
-  deterministic_spawn: [-2.0, -2.0, 2.0]
-  deterministic_goal: [-1.0, -1.5, 2.0]
+  obstacle_margin: 0.4
+  deterministic_spawn: [-2.0, 0.0, 2.0]
+  deterministic_goal: [2.0, 0.0, 2.0]
 
 observation:
   depth_camera:

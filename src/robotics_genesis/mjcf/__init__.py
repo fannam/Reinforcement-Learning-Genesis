@@ -1,3 +1,4 @@
+from .aabb import load_collision_aabbs, point_inside_any
 from .parse import (
     ASSET_FILE_TAGS,
     INCLUDE_WRAPPER_TAGS,
@@ -17,8 +18,10 @@ __all__ = [
     "get_1d_joint_names",
     "get_asset_files",
     "iter_mjcf_elements",
+    "load_collision_aabbs",
     "mjcf_has_includes",
     "parse_mjcf",
+    "point_inside_any",
     "prepare_mjcf_for_genesis",
     "strip_world_decorations",
     "validate_asset_files",

@@ -9,7 +9,7 @@ import numpy as np
 from gymnasium import Env, spaces
 
 from robotics_genesis.controllers import HoverConfig, HoverController
-from robotics_genesis.mjcf import prepare_mjcf_for_genesis, strip_world_decorations
+from robotics_genesis.mjcf import load_collision_aabbs, prepare_mjcf_for_genesis, strip_world_decorations
 from robotics_genesis.paths import PROJECT_ROOT, project_path
 from robotics_genesis.rl.observations import DEPTH_IMAGE_SHAPE, STATE_OBSERVATION_SIZE, DroneState, as_float3, as_quat_wxyz, build_observation
 from robotics_genesis.rl.rewards import RewardConfig, compute_reward, is_out_of_bounds
@@ -136,6 +136,7 @@ class WarehouseDroneEnv(Env):
         self.reward_config = reward_config or RewardConfig()
         self.scenario_config = scenario_config or ScenarioConfig()
         self.depth_camera_config = depth_camera_config or DepthCameraConfig()
+        self.obstacles = load_collision_aabbs(self.world_xml)
 
         self.action_space = spaces.Box(low=-1.0, high=1.0, shape=(3,), dtype=np.float32)
         self.observation_space = spaces.Dict(
@@ -299,7 +300,12 @@ class WarehouseDroneEnv(Env):
             raise RuntimeError("Scene build failed.")
 
         self._scene.reset()
-        self._scenario = sample_spawn_goal(self.np_random, self.scenario_config, randomize=self.randomize)
+        self._scenario = sample_spawn_goal(
+            self.np_random,
+            self.scenario_config,
+            randomize=self.randomize,
+            obstacles=self.obstacles,
+        )
         if options:
             if "spawn" in options or "goal" in options:
                 self._scenario = Scenario(
