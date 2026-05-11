@@ -26,7 +26,7 @@ from robotics_genesis.rl.warehouse_env import DepthCameraConfig, WarehouseDroneE
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Train a custom PyTorch PPO policy for single-drone navigation.")
-    parser.add_argument("--config", default="configs/rl.yaml", help="RL YAML config path.")
+    parser.add_argument("--config", default="configs/rl/single_drone_ppo.yaml", help="RL YAML config path.")
     parser.add_argument("--total-timesteps", type=int, default=None, help="Override PPO total timesteps.")
     parser.add_argument("--rollout-steps", type=int, default=None, help="Override rollout size per PPO update.")
     parser.add_argument("--batch-size", type=int, default=None, help="Override PPO minibatch size.")

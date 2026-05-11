@@ -223,7 +223,7 @@ CLI:
 
 ```bash
 .venv/bin/python scripts/train_drone_ppo.py \
-  --config configs/rl.yaml \
+  --config configs/rl/single_drone_ppo.yaml \
   --total-timesteps 200000 \
   --backend cpu \
   --run-name ppo_single_drone_v1
@@ -515,7 +515,7 @@ Deliverables:
 - `WarehouseDroneEnv`
 - `rewards.py`
 - `scenarios.py`
-- `configs/rl.yaml`
+- `configs/rl/single_drone_ppo.yaml`
 - fast tests for observation/reward/termination
 
 Done when:
@@ -610,7 +610,7 @@ Implemented:
 1. RL dependencies in `requirements.txt`.
 2. `src/robotics_genesis/rl/` with `WarehouseDroneEnv`, observations, rewards, and scenario sampling.
 3. High-level target-delta action space.
-4. `configs/rl.yaml`.
+4. `configs/rl/single_drone_ppo.yaml`.
 5. Custom PyTorch PPO training and evaluation scripts.
 6. Fast tests for observations, rewards, scenarios, env spaces, and opt-in Genesis env smoke coverage.
 

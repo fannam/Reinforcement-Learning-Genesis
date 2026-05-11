@@ -95,7 +95,7 @@ Install the RL dependencies from `requirements.txt`, then run a small custom PyT
 
 ```bash
 .venv/bin/python scripts/train_drone_ppo.py \
-  --config configs/rl.yaml \
+  --config configs/rl/single_drone_ppo.yaml \
   --total-timesteps 10000 \
   --rollout-steps 256 \
   --batch-size 64 \
@@ -108,7 +108,7 @@ Evaluate a saved model:
 ```bash
 .venv/bin/python scripts/eval_drone_policy.py \
   --model outputs/checkpoints/ppo_single_drone_smoke/final.pt \
-  --config configs/rl.yaml \
+  --config configs/rl/single_drone_ppo.yaml \
   --episodes 20 \
   --backend cpu \
   --csv outputs/logs/eval_single_drone_smoke.csv

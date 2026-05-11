@@ -22,7 +22,7 @@ from robotics_genesis.rl.warehouse_env import DepthCameraConfig, WarehouseDroneE
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Evaluate a custom PyTorch drone policy.")
     parser.add_argument("--model", required=True, help="Path to a saved .pt checkpoint.")
-    parser.add_argument("--config", default="configs/rl.yaml", help="RL YAML config path.")
+    parser.add_argument("--config", default="configs/rl/single_drone_ppo.yaml", help="RL YAML config path.")
     parser.add_argument("--episodes", type=int, default=20)
     parser.add_argument("--backend", choices=("cpu", "gpu"), default=None)
     parser.add_argument("--device", default="cpu", help="PyTorch device for policy inference.")
