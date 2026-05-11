@@ -1,13 +1,15 @@
 simulation:
-  timestep: 0.01
-  steps: 1000
+  timestep: 0.005
+  steps: 2000
   show_viewer: false
   backend: cpu
 
 viewer:
-  width: 960
-  height: 640
+  width: 1280
+  height: 800
 
 control:
-  kp: 120.0
-  kv: 12.0
+  hover:
+    mass: 0.81
+    waypoint_radius: 0.25
+    waypoint_dwell_steps: 20

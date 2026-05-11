@@ -1,4 +1,8 @@
 genesis-world
+gymnasium
 mujoco
+pyyaml
+scipy
+torch
 pyglet
 pytest

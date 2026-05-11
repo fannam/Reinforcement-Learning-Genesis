@@ -1,0 +1,62 @@
+env:
+  world_xml: worlds/warehouse.xml
+  drone_xml: robots/drone/drone.xml
+  backend: cpu
+  episode_steps: 1000
+  control_skip: 4
+  action_mode: target_delta
+  randomize: true
+  show_viewer: false
+  success_radius: 0.35
+  success_dwell_steps: 20
+
+scenario:
+  spawn_x: [-3.0, 2.0]
+  spawn_y: [-2.5, 2.5]
+  spawn_z: [1.8, 2.6]
+  goal_x: [-4.0, 4.0]
+  goal_y: [-3.0, 3.0]
+  goal_z: [1.8, 2.8]
+  min_goal_distance: 1.0
+  max_attempts: 100
+  deterministic_spawn: [-2.0, -2.0, 2.0]
+  deterministic_goal: [-1.0, -1.5, 2.0]
+
+observation:
+  depth_camera:
+    width: 64
+    height: 64
+    fov: 90.0
+    near: 0.1
+    far: 8.0
+    offset: [0.08, 0.0, 0.02]
+
+reward:
+  progress_weight: 8.0
+  distance_weight: 0.02
+  action_weight: 0.01
+  tilt_weight: 0.02
+  contact_penalty: 20.0
+  bounds_penalty: 20.0
+  success_bonus: 50.0
+
+policy:
+  state_hidden_sizes: [128]
+  depth_feature_dim: 128
+  fusion_hidden_sizes: [256, 128]
+  activation: relu
+  log_std_init: -0.5
+
+ppo:
+  device: cpu
+  total_timesteps: 200000
+  learning_rate: 0.0003
+  rollout_steps: 1024
+  batch_size: 256
+  update_epochs: 4
+  gamma: 0.99
+  gae_lambda: 0.95
+  clip_range: 0.2
+  ent_coef: 0.01
+  vf_coef: 0.5
+  max_grad_norm: 0.5

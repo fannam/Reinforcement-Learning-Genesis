@@ -1,6 +1,6 @@
 robot:
-  name: modular_humanoid
-  xml: robots/modular_humanoid/modular_humanoid.xml
+  name: drone
+  xml: robots/drone/drone.xml
 
-assets:
-  meshes: robots/modular_humanoid/meshes
+world:
+  xml: worlds/warehouse.xml

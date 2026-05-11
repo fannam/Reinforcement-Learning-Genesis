@@ -1,27 +1,15 @@
-<mujoco model='quadcopter'>
-    <compiler angle="degree" coordinate="local" autolimits="true"></compiler>
-    <option timestep="0.005" gravity="0 0 -9.81"></option>
+<mujoco model="rl_quadcopter">
+    <compiler angle="degree" coordinate="local" autolimits="true"/>
+    <option timestep="0.005" gravity="0 0 -9.81"/>
 
+    <!--
+        Tách biệt hiển thị và va chạm bằng class:
+        - class="visual"    → group 2, không tham gia va chạm (contype=0/conaffinity=0), density=0 (không khối lượng)
+        - class="collision" → group 3, hình dạng đơn giản phục vụ vật lý, có khối lượng
+        Trong viewer, F1/F2 (hoặc menu Render → Geom Group) có thể bật/tắt từng group để debug.
+    -->
     <default>
-        <!-- 
-        Định nghĩa class visual và collision riêng biệt, kiểm tra collision bằng các
-        object đơn giản để hạn chế tính toán
-         -->
         <default class="visual">
-            <!--
-            trong Mujoco, hai vật thể chỉ va chạm nếu contype của vật này
-            khớp với conaffinity của vật kia (phép AND bitwise > 0 thì có thể va chạm)
-            
-            nên đặt contype=2^n để dễ sử dụng
-            ví dụ: vật A có contype=1 (0001), vật B contype=2 (0010), vật C contype=4 (0100)
-            vật D có thể va chạm với A và C nhưng không va chạm với B
-            vật D sẽ có conaffinity=1+4=5 (0101)
-            
-            check AND bitwise: 1&5=1 > 0, 4&5=4 > 0, 2&5=0
-
-            contype (collision type) và conaffinity (collision affinity) set bằng 0
-            để ngắt hoàn toàn cơ chế va chạm của vật thể
-            -->
             <geom contype="0" conaffinity="0" group="2" density="0"/>
         </default>
         <default class="collision">
@@ -30,13 +18,7 @@
     </default>
 
     <asset>
-        <texture name="grid" type="2d" builtin="checker" rgb1=".1 .2 .3" rgb2=".2 .3 .4" width="300" height="300"/>
-        <!--
-        type 2d: texture dạng phẳng
-        builtin checker: tạo hoa văn ô bàn cờ
-        rgb1 và rgb2 là 2 mã màu luân phiên của ô bàn cờ
-        width và height: độ phân giải của hoa văn (đơn vị pixel) 
-        -->
+        <texture type="2d" name="grid" builtin="checker" rgb1=".1 .2 .3" rgb2=".2 .3 .4" width="300" height="300"/>
         <material name="mat_grid" texture="grid" texrepeat="8 8" texuniform="true"/>
 
         <material name="mat_carbon"   rgba="0.10 0.10 0.12 1" specular="0.4" shininess="0.6"/>
@@ -56,84 +38,131 @@
 
     <worldbody>
         <!-- Sàn nhà -->
-        <geom name="floor" type="plane" size="0 0 1" material="mat_grid" pos="0 0 0"/>
+        <geom name="floor" type="plane" size="0 0 1" material="mat_grid"/>
         <light pos="0 0 3" dir="0 0 -1"/>
         <light pos="2 2 3" dir="-1 -1 -1" diffuse="0.4 0.4 0.4"/>
-        <!-- Drone -->
-        <body name="drone_core" pos="0 0 0.5"> <!-- Drone ở vị trí (x, y, z) = (0, 0, 0.5) -->
-            <!-- =====================================
-            Cho phép drone_core có đầy đủ 6 bậc tự do:
-                3 bậc tự do tịnh tiến theo trục x, y, z
-                3 bậc tự do xoay (roll, pitch, yaw)
-            ========================================== -->
+
+        <!-- Gốc của Drone -->
+        <body name="drone_core" pos="0 0 0.5">
             <freejoint name="root"/>
-            <!-- =================================================
-            COLLISION (group 3): hình học đơn giản mang khối lượng, dùng để tính toán va chạm (hit-box)
-            Tổng khối lượng = Thân + 4 tay
-                Thân: 1kg
-                4 tay: 0.125kg each
-            ====================================================== -->
-            <geom class="collision" name="col_chassis" type="box" size="0.07 0.07 0.025" mass="1.0"/>
-            <!-- =================================================
-            VISUAL (group 2): chi tiết render, không va chạm
-            ======================================================-->
-            <!-- 
-            type="box": 
-                pos = (x, y, z): tọa độ trọng tâm của khối hộp trong không gian local của body (đơn vị mét)
-                size = (x_h, y_h, z_h): khoảng cách từ tâm đến các mặt của khối hộp (đơn vị mét)
-                euler = (roll, pitch, yaw): góc xoay quanh 3 trục
-            type="cylinder"
-                pos = (x, y, z): tọa độ tâm của khối trụ (điểm nằm chính giữa chiều cao và tiết diện tròn)
-                size = (r, h_h): bán kính của mặt đáy hình trụ và khoảng cách từ tâm trụ đến 2 mặt tiết diện tròn 
-            -->
+
+            <!-- ============================================================
+                 COLLISION (group 3): hình học đơn giản, mang khối lượng
+                 Tổng khối lượng ≈ 0.55 + 4*(0.02 + 0.04 + 0.005) = 0.81 kg
+                 ============================================================ -->
+            <geom class="collision" name="col_chassis" type="box" size="0.07 0.07 0.025" mass="0.55"/>
+
+            <!-- ============================================================
+                 VISUAL (group 2): chi tiết để render, không va chạm
+                 ============================================================ -->
+            <!-- Khung carbon: top + bottom plate -->
             <geom class="visual" name="vis_top_plate" type="box" pos="0 0 0.014" size="0.05 0.05 0.0025" material="mat_carbon"/>
             <geom class="visual" name="vis_bot_plate" type="box" pos="0 0 -0.014" size="0.07 0.07 0.0025" material="mat_carbon"/>
+            <!-- Standoffs nối hai plate -->
             <geom class="visual" name="vis_so_FL" type="cylinder" pos="0.040 0.040 0" size="0.003 0.014" material="mat_motor"/>
             <geom class="visual" name="vis_so_FR" type="cylinder" pos="0.040 -0.040 0" size="0.003 0.014" material="mat_motor"/>
-            <geom class="visual" name="vis_so_BL" type="cylinder" pos="-0.040 0.040 0" size="0.003 0.014" material="mat_motor"/>
             <geom class="visual" name="vis_so_BR" type="cylinder" pos="-0.040 -0.040 0" size="0.003 0.014" material="mat_motor"/>
-
-            <!-- Flight controller ở giữa -->
+            <geom class="visual" name="vis_so_BL" type="cylinder" pos="-0.040 0.040 0" size="0.003 0.014" material="mat_motor"/>
+            <!-- FC stack ở giữa -->
             <geom class="visual" name="vis_fc" type="box" pos="0 0 0" size="0.018 0.018 0.008" material="mat_motor"/>
-            
-            <!-- Pin ở trên đỉnh -->
+            <!-- Pin LiPo trên đỉnh -->
             <geom class="visual" name="vis_battery" type="box" pos="0 0 0.030" size="0.040 0.022 0.012" material="mat_battery"/>
             <geom class="visual" name="vis_battery_strap" type="box" pos="0 0 0.043" size="0.038 0.020 0.0008" material="mat_carbon"/>
-            
-            <!-- 
-            Camera ở phía trước, cố định (không quay) và nghiêng lên 20 độ
-            Ở cylinder phải để góc quay thêm 90 độ so với hình box vì cần đặt hình trụ lên mặt còn lại của hình hộp
-            -->
-            <geom class="visual" name="vis_cam_body" type="box" pos="0.058 0 0.018" euler="0 -20 0" size="0.013 0.013 0.013"/>
-            <geom class="visual" name="vis_cam_lens" type="cylinder" pos="0.075 0 0.018" euler="0 70 0" size="0.007 0.004" material="mat_lens"/>
-            
-            <!-- 
-            Attentna phía sau
-            type="capsule" (hình viên thuốc)
-                fromto = (x1,y1,z1,x2,y2,z2): thay vì sử dụng size và pos thì giới hạn luôn đầu và cuối
-                size = r: bán kính trụ
-            -->
+            <!-- Camera FPV phía trước, nghiêng lên 20° -->
+            <geom class="visual" name="vis_cam_body" type="box"      pos="0.058 0 0.012" euler="0 -20 0" size="0.013 0.013 0.013" material="mat_camera"/>
+            <geom class="visual" name="vis_cam_lens" type="cylinder" pos="0.075 0 0.018" euler="0 70 0" size="0.007 0.004"      material="mat_lens"/>
+            <!-- Antenna VTX phía sau -->
             <geom class="visual" name="vis_ant_base" type="cylinder" pos="-0.050 0 0.024" size="0.003 0.008" material="mat_motor"/>
-            <geom class="visual" name="vis_ant_rod" type="capsule" fromto="-0.050 0 0.032 -0.062 0 0.072" size="0.0025" material="mat_antenna"/>
-
-            <!-- 
-            LEDs định hướng (xanh trước, đỏ sau) 
-            type="sphere" (hình cầu)
-                pos=(x,y,z): tọa độ tâm hình cầu
-                size=r: bán kính hình cầu
-            -->
+            <geom class="visual" name="vis_ant_rod"  type="capsule"  fromto="-0.050 0 0.032 -0.062 0 0.072" size="0.0025" material="mat_antenna"/>
+            <!-- LEDs định hướng (xanh trước, đỏ sau) -->
             <geom class="visual" name="vis_led_FL" type="sphere" pos="0.045 0.045 0.018" size="0.0035" material="mat_led_g"/>
             <geom class="visual" name="vis_led_FR" type="sphere" pos="0.045 -0.045 0.018" size="0.0035" material="mat_led_g"/>
-            <geom class="visual" name="vis_led_BL" type="sphere" pos="-0.045 0.045 0.018" size="0.0035" material="mat_led_r"/>
             <geom class="visual" name="vis_led_BR" type="sphere" pos="-0.045 -0.045 0.018" size="0.0035" material="mat_led_r"/>
+            <geom class="visual" name="vis_led_BL" type="sphere" pos="-0.045 0.045 0.018" size="0.0035" material="mat_led_r"/>
 
-            <!-- ==================================
-            CÁNH 1: Front-left 
-            =======================================-->
-            <body name="arm_FL" pos="0.012 0.012 0">
-                
+            <!-- ====================== CÁNH 1: Front-Left (CCW) ====================== -->
+            <body name="arm_FL" pos="0.12 0.12 0">
+                <!-- COLLISION -->
+                <geom class="collision" name="col_arm_FL"   type="capsule"  fromto="-0.115 -0.115 0 -0.005 -0.005 0" size="0.011" mass="0.020"/>
+                <geom class="collision" name="col_motor_FL" type="cylinder" pos="0 0 0.012" size="0.017 0.018" mass="0.040"/>
+                <geom class="collision" name="col_foot_FL"  type="sphere"   pos="0 0 -0.046" size="0.006" mass="0.005"/>
+                <!-- VISUAL: arm + motor + bell + propeller + landing leg -->
+                <geom class="visual" type="capsule"  fromto="-0.105 -0.105 0 0 0 0" size="0.0085" material="mat_arm"/>
+                <geom class="visual" type="cylinder" pos="0 0 0.012" size="0.014 0.012" material="mat_motor"/>
+                <geom class="visual" type="cylinder" pos="0 0 0.026" size="0.012 0.003" material="mat_bell_ccw"/>
+                <geom class="visual" type="cylinder" pos="0 0 0.030" size="0.005 0.001" material="mat_carbon"/>
+                <!-- Cánh quạt 2-blade (CCW: hướng theo trục X) -->
+                <geom class="visual" type="box"      pos="0 0 0.031" size="0.063 0.006 0.0006" material="mat_prop"/>
+                <geom class="visual" type="cylinder" pos="0 0 0.031" size="0.063 0.0003" material="mat_disc"/>
+                <!-- Landing leg + foot -->
+                <geom class="visual" type="capsule"  fromto="0 0 -0.005 0 0 -0.045" size="0.0035" material="mat_carbon"/>
+                <geom class="visual" type="sphere"   pos="0 0 -0.046" size="0.006" material="mat_motor"/>
+                <!-- Site neo lực đẩy -->
+                <site name="rotor_FL" type="cylinder" pos="0 0 0.030" size="0.06 0.001" rgba="0.2 1.0 0.2 0.2"/>
             </body>
-        </body> 
-        
+
+            <!-- ====================== CÁNH 2: Front-Right (CW) ====================== -->
+            <body name="arm_FR" pos="0.12 -0.12 0">
+                <geom class="collision" name="col_arm_FR"   type="capsule"  fromto="-0.115 0.115 0 -0.005 0.005 0" size="0.011" mass="0.020"/>
+                <geom class="collision" name="col_motor_FR" type="cylinder" pos="0 0 0.012" size="0.017 0.018" mass="0.040"/>
+                <geom class="collision" name="col_foot_FR"  type="sphere"   pos="0 0 -0.046" size="0.006" mass="0.005"/>
+                <geom class="visual" type="capsule"  fromto="-0.105 0.105 0 0 0 0" size="0.0085" material="mat_arm"/>
+                <geom class="visual" type="cylinder" pos="0 0 0.012" size="0.014 0.012" material="mat_motor"/>
+                <geom class="visual" type="cylinder" pos="0 0 0.026" size="0.012 0.003" material="mat_bell_cw"/>
+                <geom class="visual" type="cylinder" pos="0 0 0.030" size="0.005 0.001" material="mat_carbon"/>
+                <!-- Cánh quạt CW: xoay 90° để khác hình dạng với CCW -->
+                <geom class="visual" type="box"      pos="0 0 0.031" euler="0 0 90" size="0.063 0.006 0.0006" material="mat_prop"/>
+                <geom class="visual" type="cylinder" pos="0 0 0.031" size="0.063 0.0003" material="mat_disc"/>
+                <geom class="visual" type="capsule"  fromto="0 0 -0.005 0 0 -0.045" size="0.0035" material="mat_carbon"/>
+                <geom class="visual" type="sphere"   pos="0 0 -0.046" size="0.006" material="mat_motor"/>
+                <site name="rotor_FR" type="cylinder" pos="0 0 0.030" size="0.06 0.001" rgba="0.2 1.0 0.2 0.2"/>
+            </body>
+
+            <!-- ====================== CÁNH 3: Back-Right (CCW) ====================== -->
+            <body name="arm_BR" pos="-0.12 -0.12 0">
+                <geom class="collision" name="col_arm_BR"   type="capsule"  fromto="0.115 0.115 0 0.005 0.005 0" size="0.011" mass="0.020"/>
+                <geom class="collision" name="col_motor_BR" type="cylinder" pos="0 0 0.012" size="0.017 0.018" mass="0.040"/>
+                <geom class="collision" name="col_foot_BR"  type="sphere"   pos="0 0 -0.046" size="0.006" mass="0.005"/>
+                <geom class="visual" type="capsule"  fromto="0.105 0.105 0 0 0 0" size="0.0085" material="mat_arm"/>
+                <geom class="visual" type="cylinder" pos="0 0 0.012" size="0.014 0.012" material="mat_motor"/>
+                <geom class="visual" type="cylinder" pos="0 0 0.026" size="0.012 0.003" material="mat_bell_ccw"/>
+                <geom class="visual" type="cylinder" pos="0 0 0.030" size="0.005 0.001" material="mat_carbon"/>
+                <geom class="visual" type="box"      pos="0 0 0.031" size="0.063 0.006 0.0006" material="mat_prop"/>
+                <geom class="visual" type="cylinder" pos="0 0 0.031" size="0.063 0.0003" material="mat_disc"/>
+                <geom class="visual" type="capsule"  fromto="0 0 -0.005 0 0 -0.045" size="0.0035" material="mat_carbon"/>
+                <geom class="visual" type="sphere"   pos="0 0 -0.046" size="0.006" material="mat_motor"/>
+                <site name="rotor_BR" type="cylinder" pos="0 0 0.030" size="0.06 0.001" rgba="1.0 0.2 0.2 0.2"/>
+            </body>
+
+            <!-- ====================== CÁNH 4: Back-Left (CW) ====================== -->
+            <body name="arm_BL" pos="-0.12 0.12 0">
+                <geom class="collision" name="col_arm_BL"   type="capsule"  fromto="0.115 -0.115 0 0.005 -0.005 0" size="0.011" mass="0.020"/>
+                <geom class="collision" name="col_motor_BL" type="cylinder" pos="0 0 0.012" size="0.017 0.018" mass="0.040"/>
+                <geom class="collision" name="col_foot_BL"  type="sphere"   pos="0 0 -0.046" size="0.006" mass="0.005"/>
+                <geom class="visual" type="capsule"  fromto="0.105 -0.105 0 0 0 0" size="0.0085" material="mat_arm"/>
+                <geom class="visual" type="cylinder" pos="0 0 0.012" size="0.014 0.012" material="mat_motor"/>
+                <geom class="visual" type="cylinder" pos="0 0 0.026" size="0.012 0.003" material="mat_bell_cw"/>
+                <geom class="visual" type="cylinder" pos="0 0 0.030" size="0.005 0.001" material="mat_carbon"/>
+                <geom class="visual" type="box"      pos="0 0 0.031" euler="0 0 90" size="0.063 0.006 0.0006" material="mat_prop"/>
+                <geom class="visual" type="cylinder" pos="0 0 0.031" size="0.063 0.0003" material="mat_disc"/>
+                <geom class="visual" type="capsule"  fromto="0 0 -0.005 0 0 -0.045" size="0.0035" material="mat_carbon"/>
+                <geom class="visual" type="sphere"   pos="0 0 -0.046" size="0.006" material="mat_motor"/>
+                <site name="rotor_BL" type="cylinder" pos="0 0 0.030" size="0.06 0.001" rgba="1.0 0.2 0.2 0.2"/>
+            </body>
+        </body>
     </worldbody>
+
+    <!-- Ánh xạ tín hiệu từ mạng nơ-ron thành lực vật lý -->
+    <actuator>
+        <!--
+            gear = [Fx, Fy, Fz, Tx, Ty, Tz]
+            - Fz = 1: Lực đẩy hướng lên dọc trục site.
+            - Tz = ±0.05: Mô-men phản lực (yaw) – CCW dương, CW âm.
+            - ctrlrange="0 10": tín hiệu mạng từ 0 (tắt) đến 10 (max ga).
+        -->
+        <general name="thrust_FL" site="rotor_FL" ctrlrange="0 10" gear="0 0 1 0 0 0.05"/>
+        <general name="thrust_FR" site="rotor_FR" ctrlrange="0 10" gear="0 0 1 0 0 -0.05"/>
+        <general name="thrust_BR" site="rotor_BR" ctrlrange="0 10" gear="0 0 1 0 0 0.05"/>
+        <general name="thrust_BL" site="rotor_BL" ctrlrange="0 10" gear="0 0 1 0 0 -0.05"/>
+    </actuator>
 </mujoco>

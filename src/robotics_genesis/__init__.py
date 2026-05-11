@@ -1,4 +1,4 @@
-"""Utilities for the Robotics Genesis modular humanoid project."""
+"""Utilities for the Robotics Genesis drone and warehouse simulation project."""
 
 from robotics_genesis.paths import PROJECT_ROOT, project_path
 
