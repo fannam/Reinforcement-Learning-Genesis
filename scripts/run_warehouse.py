@@ -5,53 +5,19 @@ import argparse
 import csv
 import os
 import sys
-import xml.etree.ElementTree as ET
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PROJECT_ROOT / "src"))
 
 from robotics_genesis.controllers import HoverConfig, HoverController, WaypointMission
+from robotics_genesis.mjcf import prepare_mjcf_for_genesis, strip_world_decorations
 from robotics_genesis.paths import project_path
-from robotics_genesis.viewer_env import configure_pyglet_options, configure_viewer_environment
-from robotics_genesis.xml_robot import prepare_mjcf_for_genesis
-
-
-def strip_world_decorations(src: Path, dst: Path) -> Path:
-    """Drop top-level <geom name='floor'> and <light> from worldbody so
-    a robot MJCF can be loaded into another scene without duplicate floor/lights."""
-    tree = ET.parse(src)
-    root = tree.getroot()
-    wb = root.find("worldbody")
-    if wb is not None:
-        for child in list(wb):
-            if child.tag == "light":
-                wb.remove(child)
-            elif child.tag == "geom" and child.attrib.get("name") == "floor":
-                wb.remove(child)
-    dst.parent.mkdir(parents=True, exist_ok=True)
-    tree.write(dst, encoding="utf-8", xml_declaration=False)
-    return dst
-
-
-def _cuda_available() -> bool:
-    try:
-        import torch
-    except ImportError:
-        return False
-    return torch.cuda.is_available()
-
-
-def _select_backend(gs, name: str):
-    normalized = name.strip().lower()
-    if normalized in ("gpu", "cuda"):
-        if not _cuda_available():
-            print("[run_warehouse] CUDA not available, falling back to CPU backend.")
-            return gs.cpu
-        return gs.gpu
-    if normalized == "cpu":
-        return gs.cpu
-    raise ValueError("backend must be 'cpu' or 'gpu'")
+from robotics_genesis.runtime import (
+    configure_pyglet_options,
+    configure_viewer_environment,
+    select_backend,
+)
 
 
 def _resolve_mission_log(path: str) -> Path:
@@ -153,7 +119,7 @@ def main() -> None:
             project_path("outputs", "generated") / f"{drone_prepared.stem}.scene_ready.xml",
         )
 
-    gs.init(backend=_select_backend(gs, args.backend))
+    gs.init(backend=select_backend(gs, args.backend))
 
     viewer_options = None
     if args.viewer:

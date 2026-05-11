@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import os
-import xml.etree.ElementTree as ET
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Sequence
@@ -10,12 +9,16 @@ import numpy as np
 from gymnasium import Env, spaces
 
 from robotics_genesis.controllers import HoverConfig, HoverController
+from robotics_genesis.mjcf import prepare_mjcf_for_genesis, strip_world_decorations
 from robotics_genesis.paths import PROJECT_ROOT, project_path
 from robotics_genesis.rl.observations import DEPTH_IMAGE_SHAPE, STATE_OBSERVATION_SIZE, DroneState, as_float3, as_quat_wxyz, build_observation
 from robotics_genesis.rl.rewards import RewardConfig, compute_reward, is_out_of_bounds
 from robotics_genesis.rl.scenarios import Scenario, ScenarioConfig, sample_spawn_goal
-from robotics_genesis.viewer_env import configure_pyglet_options, configure_viewer_environment
-from robotics_genesis.xml_robot import prepare_mjcf_for_genesis
+from robotics_genesis.runtime import (
+    configure_pyglet_options,
+    configure_viewer_environment,
+    select_backend,
+)
 
 
 ACTION_SCALE = np.array([0.75, 0.75, 0.35], dtype=np.float32)
@@ -25,38 +28,6 @@ IDENTITY_QUAT_WXYZ = np.array([1.0, 0.0, 0.0, 0.0], dtype=np.float32)
 PHYSICS_TIMESTEP = 0.005
 CAMERA_FORWARD_BODY = np.array([1.0, 0.0, 0.0], dtype=np.float32)
 CAMERA_UP_BODY = np.array([0.0, 0.0, 1.0], dtype=np.float32)
-
-
-def _strip_world_decorations(src: Path, dst: Path) -> Path:
-    tree = ET.parse(src)
-    root = tree.getroot()
-    worldbody = root.find("worldbody")
-    if worldbody is not None:
-        for child in list(worldbody):
-            if child.tag == "light":
-                worldbody.remove(child)
-            elif child.tag == "geom" and child.attrib.get("name") == "floor":
-                worldbody.remove(child)
-    dst.parent.mkdir(parents=True, exist_ok=True)
-    tree.write(dst, encoding="utf-8", xml_declaration=False)
-    return dst
-
-
-def _cuda_available() -> bool:
-    try:
-        import torch
-    except ImportError:
-        return False
-    return torch.cuda.is_available()
-
-
-def _select_backend(gs, name: str):
-    normalized = name.strip().lower()
-    if normalized in ("gpu", "cuda"):
-        return gs.gpu if _cuda_available() else gs.cpu
-    if normalized == "cpu":
-        return gs.cpu
-    raise ValueError("backend must be 'cpu' or 'gpu'")
 
 
 def _to_numpy(value) -> np.ndarray:
@@ -222,12 +193,12 @@ class WarehouseDroneEnv(Env):
         import genesis as gs
 
         if not getattr(gs, "_initialized", False):
-            gs.init(backend=_select_backend(gs, self.backend))
+            gs.init(backend=select_backend(gs, self.backend))
             self._owns_genesis = True
 
         world_genesis = prepare_mjcf_for_genesis(self.world_xml, project_path("outputs", "generated"))
         drone_prepared = prepare_mjcf_for_genesis(self.drone_xml, project_path("outputs", "generated"))
-        drone_genesis = _strip_world_decorations(
+        drone_genesis = strip_world_decorations(
             drone_prepared,
             project_path("outputs", "generated") / f"{drone_prepared.stem}.rl_scene_ready.xml",
         )

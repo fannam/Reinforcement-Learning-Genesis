@@ -4,29 +4,13 @@ import os
 from pathlib import Path
 
 from robotics_genesis.controllers import default_modular_gait
+from robotics_genesis.mjcf import get_1d_joint_names, prepare_mjcf_for_genesis
 from robotics_genesis.paths import project_path
-from robotics_genesis.viewer_env import configure_pyglet_options, configure_viewer_environment
-from robotics_genesis.xml_robot import get_1d_joint_names, prepare_mjcf_for_genesis
-
-
-def _cuda_available() -> bool:
-    try:
-        import torch
-    except ImportError:
-        return False
-    return torch.cuda.is_available()
-
-
-def _select_backend(gs, name: str):
-    normalized = name.strip().lower()
-    if normalized in ("gpu", "cuda"):
-        if not _cuda_available():
-            print("[genesis_runner] CUDA not available, falling back to CPU backend.")
-            return gs.cpu
-        return gs.gpu
-    if normalized == "cpu":
-        return gs.cpu
-    raise ValueError("GENESIS_BACKEND must be 'cpu' or 'gpu'")
+from robotics_genesis.runtime import (
+    configure_pyglet_options,
+    configure_viewer_environment,
+    select_backend,
+)
 
 
 def run_genesis_simulation(
@@ -52,7 +36,7 @@ def run_genesis_simulation(
     joint_index = {name: index for index, name in enumerate(joint_order)}
     gait = default_modular_gait()
 
-    gs.init(backend=_select_backend(gs, backend))
+    gs.init(backend=select_backend(gs, backend))
 
     viewer_options = None
     if show_viewer:

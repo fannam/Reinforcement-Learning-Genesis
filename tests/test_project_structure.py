@@ -10,8 +10,7 @@ import pytest
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 
 from robotics_genesis.controllers import HoverConfig, HoverController, WaypointMission
-from robotics_genesis.xml_robot import get_1d_joint_names, parse_mjcf
-from scripts.run_warehouse import strip_world_decorations
+from robotics_genesis.mjcf import get_1d_joint_names, parse_mjcf, strip_world_decorations
 
 
 DRONE_XML = PROJECT_ROOT / "assets" / "robots" / "drone" / "drone.xml"
