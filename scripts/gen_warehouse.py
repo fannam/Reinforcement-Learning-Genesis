@@ -136,17 +136,21 @@ FLOOR_CRATES = [
 ]
 
 
-def fmt_geom(name, gtype, pos, size, material, cls=None, euler=None, collision=True) -> str:
+def fmt_geom(name, gtype, pos, size, material, cls=None, euler=None, collision=True, rgba=None) -> str:
     """Emit visual geom (group=2, no collision, with material) plus an optional
-    collision twin (group=3, contype=1, no material → renders gray but invisible
-    when collision group toggled off in viewer)."""
+    collision twin (group=3, contype=1, no material)."""
     pos_str = " ".join(f"{v:.3f}" for v in pos)
     size_str = " ".join(f"{v:.3f}" for v in size)
     extra = ""
     if euler is not None:
         extra = ' euler="' + " ".join(f"{v:.2f}" for v in euler) + '"'
+    if rgba is not None:
+        rgba_str = " ".join(f"{v:.2f}" for v in rgba)
+        extra += f' rgba="{rgba_str}"'
+    
+    cls_str = f' class="{cls}"' if cls else ' class="env_visual"'
     parts = [
-        f'<geom class="env_visual" name="{name}" type="{gtype}" '
+        f'<geom{cls_str} name="{name}" type="{gtype}" '
         f'pos="{pos_str}" size="{size_str}"{extra} material="{material}"/>'
     ]
     if collision:
@@ -155,6 +159,21 @@ def fmt_geom(name, gtype, pos, size, material, cls=None, euler=None, collision=T
             f'pos="{pos_str}" size="{size_str}"{extra}/>'
         )
     return "\n        ".join(parts)
+
+
+def fmt_body(name, gtype, pos, size, material, euler=None, density=100.0) -> str:
+    """Emit a body with a free joint and a geom. Used for dynamic objects."""
+    pos_str = " ".join(f"{v:.3f}" for v in pos)
+    size_str = " ".join(f"{v:.3f}" for v in size)
+    euler_str = ""
+    if euler is not None:
+        euler_str = ' euler="' + " ".join(f"{v:.2f}" for v in euler) + '"'
+    
+    return f"""<body name="dyn_{name}" pos="{pos_str}"{euler_str}>
+            <freejoint name="joint_{name}"/>
+            <geom name="{name}" type="{gtype}" size="{size_str}" material="{material}" density="{density}" contype="1" conaffinity="1" group="3"/>
+            <geom name="{name}_visual" type="{gtype}" size="{size_str}" material="{material}" contype="0" conaffinity="0" group="2"/>
+        </body>"""
 
 
 def post_dims(top_z: float):
@@ -500,9 +519,40 @@ def gen_pile_zones():
             stack_lvl = RNG.choice([0, 0, 1, 1, 2])
             cz = bhz + stack_lvl * (2 * bhz + 0.01)
             yaw = RNG.uniform(0, 90)
-            out.append(fmt_geom(f"pile_z{zi}_b{bi}", "box",
-                                (x, y, cz), half, "mat_box_yellow",
-                                euler=(0, 0, yaw)))
+            
+            # Make some boxes dynamic
+            if RNG.random() < 0.4: # 40% chance of being dynamic
+                out.append(fmt_body(f"pile_z{zi}_b{bi}", "box",
+                                   (x, y, cz), half, "mat_box_yellow",
+                                   euler=(0, 0, yaw)))
+            else:
+                out.append(fmt_geom(f"pile_z{zi}_b{bi}", "box",
+                                    (x, y, cz), half, "mat_box_yellow",
+                                    euler=(0, 0, yaw)))
+    return out
+
+
+def gen_bollards():
+    """Add safety bollards at the ends of rack aisles."""
+    out = []
+    bi = 0
+    for y_c in RACK_PAIR_Y:
+        for x in [RACK_X_C - RACK_HALF_X - 0.5, RACK_X_C + RACK_HALF_X + 0.5]:
+            for dy in [-1.5, 1.5]:
+                out.append(fmt_geom(f"bollard_{bi}", "cylinder",
+                                   (x, y_c + dy, 0.4), (0.08, 0.4), "mat_marking"))
+                bi += 1
+    return out
+
+
+def gen_floor_imperfections():
+    """Add some visual noise to the floor (stains, wear)."""
+    out = []
+    for i in range(15):
+        x = RNG.uniform(-ARENA_HX + 2, ARENA_HX - 2)
+        y = RNG.uniform(-ARENA_HY + 2, ARENA_HY - 2)
+        size = (RNG.uniform(0.3, 1.2), RNG.uniform(0.3, 1.2), 0.001)
+        out.append(fmt_geom(f"wear_{i}", "box", (x, y, 0.002), size, "mat_floor_wear", collision=False))
     return out
 
 
@@ -554,11 +604,16 @@ def gen_lights():
         for y in (-9.0, 0.0, 9.0):
             lights.append(
                 f'<light pos="{x:.1f} {y:.1f} 6.0" dir="0 0 -1" '
-                f'diffuse="0.35 0.35 0.35"/>'
+                f'diffuse="0.4 0.4 0.4" specular="0.1 0.1 0.1"/>'
             )
     # corner fill lights
-    lights.append('<light pos="-18 -10 5" dir="0.5 0.3 -1" diffuse="0.3 0.3 0.3"/>')
-    lights.append('<light pos="18 10 5"   dir="-0.5 -0.3 -1" diffuse="0.3 0.3 0.3"/>')
+    lights.append('<light pos="-18 -10 5" dir="0.5 0.3 -1" diffuse="0.2 0.2 0.2"/>')
+    lights.append('<light pos="18 10 5"   dir="-0.5 -0.3 -1" diffuse="0.2 0.2 0.2"/>')
+    
+    # aisle lights (blueish/cold for contrast)
+    for y in RACK_PAIR_Y:
+        lights.append(f'<light pos="0 {y:.1f} 4.0" dir="0 0 -1" diffuse="0.1 0.1 0.2"/>')
+    
     return "\n        ".join(lights)
 
 
@@ -576,6 +631,8 @@ def main() -> None:
     geoms.extend(gen_beams())
     geoms.extend(gen_hanging())
     geoms.extend(gen_floor_crates())
+    geoms.extend(gen_bollards())
+    geoms.extend(gen_floor_imperfections())
 
     body_xml = "\n        ".join(geoms)
     lights_xml = gen_lights()
@@ -593,19 +650,21 @@ def main() -> None:
     </default>
 
     <asset>
-        <texture name="grid" type="2d" builtin="checker" rgb1=".55 .56 .58" rgb2=".62 .63 .65" width="300" height="300"/>
-        <material name="mat_floor"      texture="grid" texrepeat="44 28" texuniform="true"/>
-        <material name="mat_wall"       rgba="0.88 0.88 0.90 1" specular="0.2"/>
-        <material name="mat_shelf_red"  rgba="0.78 0.18 0.15 1" specular="0.4" shininess="0.4"/>
-        <material name="mat_box_yellow" rgba="0.95 0.82 0.20 1" specular="0.2"/>
-        <material name="mat_beam"       rgba="0.40 0.42 0.45 1" specular="0.5"/>
-        <material name="mat_pallet"     rgba="0.50 0.36 0.20 1" specular="0.1"/>
-        <material name="mat_pod"        rgba="0.92 0.45 0.10 1" specular="0.3"/>
-        <material name="mat_pod_base"   rgba="0.20 0.20 0.22 1" specular="0.4"/>
-        <material name="mat_conveyor"   rgba="0.18 0.20 0.22 1" specular="0.6" shininess="0.6"/>
-        <material name="mat_charge"     rgba="0.10 0.55 0.85 1" specular="0.5"/>
-        <material name="mat_marking"    rgba="0.96 0.78 0.10 1" specular="0.2"/>
-        <material name="mat_table"      rgba="0.78 0.78 0.80 1" specular="0.3"/>
+        <texture name="grid" type="2d" builtin="checker" rgb1=".2 .2 .2" rgb2=".3 .3 .3" width="512" height="512" mark="edge" markrgb=".4 .4 .4"/>
+        <texture name="sky" type="skybox" builtin="gradient" rgb1=".1 .1 .1" rgb2="0 0 0" width="512" height="512"/>
+        <material name="mat_floor"      texture="grid" texrepeat="22 14" texuniform="true" reflectance="0.2"/>
+        <material name="mat_floor_wear" rgba="0.1 0.1 0.1 0.3" specular="0" shininess="0"/>
+        <material name="mat_wall"       rgba="0.6 0.6 0.65 1" specular="0.1" shininess="0.1"/>
+        <material name="mat_shelf_red"  rgba="0.6 0.1 0.1 1" specular="0.8" shininess="0.8"/>
+        <material name="mat_box_yellow" rgba="0.8 0.6 0.2 1" specular="0.1" shininess="0.1"/>
+        <material name="mat_beam"       rgba="0.3 0.3 0.35 1" specular="0.9" shininess="0.9"/>
+        <material name="mat_pallet"     rgba="0.4 0.3 0.2 1" specular="0.05"/>
+        <material name="mat_pod"        rgba="0.8 0.4 0.1 1" specular="0.2"/>
+        <material name="mat_pod_base"   rgba="0.15 0.15 0.17 1" specular="0.5"/>
+        <material name="mat_conveyor"   rgba="0.1 0.1 0.12 1" specular="0.8" shininess="0.8"/>
+        <material name="mat_charge"     rgba="0.05 0.4 0.7 1" specular="0.8"/>
+        <material name="mat_marking"    rgba="0.8 0.7 0.0 1" specular="0.3" shininess="0.3"/>
+        <material name="mat_table"      rgba="0.5 0.5 0.55 1" specular="0.4"/>
     </asset>
 
     <worldbody>

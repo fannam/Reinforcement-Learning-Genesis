@@ -12,39 +12,47 @@
     </default>
 
     <asset>
-        <texture name="grid" type="2d" builtin="checker" rgb1=".55 .56 .58" rgb2=".62 .63 .65" width="300" height="300"/>
-        <material name="mat_floor"      texture="grid" texrepeat="44 28" texuniform="true"/>
-        <material name="mat_wall"       rgba="0.88 0.88 0.90 1" specular="0.2"/>
-        <material name="mat_shelf_red"  rgba="0.78 0.18 0.15 1" specular="0.4" shininess="0.4"/>
-        <material name="mat_box_yellow" rgba="0.95 0.82 0.20 1" specular="0.2"/>
-        <material name="mat_beam"       rgba="0.40 0.42 0.45 1" specular="0.5"/>
-        <material name="mat_pallet"     rgba="0.50 0.36 0.20 1" specular="0.1"/>
-        <material name="mat_pod"        rgba="0.92 0.45 0.10 1" specular="0.3"/>
-        <material name="mat_pod_base"   rgba="0.20 0.20 0.22 1" specular="0.4"/>
-        <material name="mat_conveyor"   rgba="0.18 0.20 0.22 1" specular="0.6" shininess="0.6"/>
-        <material name="mat_charge"     rgba="0.10 0.55 0.85 1" specular="0.5"/>
-        <material name="mat_marking"    rgba="0.96 0.78 0.10 1" specular="0.2"/>
-        <material name="mat_table"      rgba="0.78 0.78 0.80 1" specular="0.3"/>
+        <texture name="grid" type="2d" builtin="checker" rgb1=".2 .2 .2" rgb2=".3 .3 .3" width="512" height="512" mark="edge" markrgb=".4 .4 .4"/>
+        <texture name="sky" type="skybox" builtin="gradient" rgb1=".1 .1 .1" rgb2="0 0 0" width="512" height="512"/>
+        <material name="mat_floor"      texture="grid" texrepeat="22 14" texuniform="true" reflectance="0.2"/>
+        <material name="mat_floor_wear" rgba="0.1 0.1 0.1 0.3" specular="0" shininess="0"/>
+        <material name="mat_wall"       rgba="0.6 0.6 0.65 1" specular="0.1" shininess="0.1"/>
+        <material name="mat_shelf_red"  rgba="0.6 0.1 0.1 1" specular="0.8" shininess="0.8"/>
+        <material name="mat_box_yellow" rgba="0.8 0.6 0.2 1" specular="0.1" shininess="0.1"/>
+        <material name="mat_beam"       rgba="0.3 0.3 0.35 1" specular="0.9" shininess="0.9"/>
+        <material name="mat_pallet"     rgba="0.4 0.3 0.2 1" specular="0.05"/>
+        <material name="mat_pod"        rgba="0.8 0.4 0.1 1" specular="0.2"/>
+        <material name="mat_pod_base"   rgba="0.15 0.15 0.17 1" specular="0.5"/>
+        <material name="mat_conveyor"   rgba="0.1 0.1 0.12 1" specular="0.8" shininess="0.8"/>
+        <material name="mat_charge"     rgba="0.05 0.4 0.7 1" specular="0.8"/>
+        <material name="mat_marking"    rgba="0.8 0.7 0.0 1" specular="0.3" shininess="0.3"/>
+        <material name="mat_table"      rgba="0.5 0.5 0.55 1" specular="0.4"/>
     </asset>
 
     <worldbody>
-        <light pos="-15.0 -9.0 6.0" dir="0 0 -1" diffuse="0.35 0.35 0.35"/>
-        <light pos="-15.0 0.0 6.0" dir="0 0 -1" diffuse="0.35 0.35 0.35"/>
-        <light pos="-15.0 9.0 6.0" dir="0 0 -1" diffuse="0.35 0.35 0.35"/>
-        <light pos="-7.0 -9.0 6.0" dir="0 0 -1" diffuse="0.35 0.35 0.35"/>
-        <light pos="-7.0 0.0 6.0" dir="0 0 -1" diffuse="0.35 0.35 0.35"/>
-        <light pos="-7.0 9.0 6.0" dir="0 0 -1" diffuse="0.35 0.35 0.35"/>
-        <light pos="0.0 -9.0 6.0" dir="0 0 -1" diffuse="0.35 0.35 0.35"/>
-        <light pos="0.0 0.0 6.0" dir="0 0 -1" diffuse="0.35 0.35 0.35"/>
-        <light pos="0.0 9.0 6.0" dir="0 0 -1" diffuse="0.35 0.35 0.35"/>
-        <light pos="7.0 -9.0 6.0" dir="0 0 -1" diffuse="0.35 0.35 0.35"/>
-        <light pos="7.0 0.0 6.0" dir="0 0 -1" diffuse="0.35 0.35 0.35"/>
-        <light pos="7.0 9.0 6.0" dir="0 0 -1" diffuse="0.35 0.35 0.35"/>
-        <light pos="15.0 -9.0 6.0" dir="0 0 -1" diffuse="0.35 0.35 0.35"/>
-        <light pos="15.0 0.0 6.0" dir="0 0 -1" diffuse="0.35 0.35 0.35"/>
-        <light pos="15.0 9.0 6.0" dir="0 0 -1" diffuse="0.35 0.35 0.35"/>
-        <light pos="-18 -10 5" dir="0.5 0.3 -1" diffuse="0.3 0.3 0.3"/>
-        <light pos="18 10 5"   dir="-0.5 -0.3 -1" diffuse="0.3 0.3 0.3"/>
+        <light pos="-15.0 -9.0 6.0" dir="0 0 -1" diffuse="0.4 0.4 0.4" specular="0.1 0.1 0.1"/>
+        <light pos="-15.0 0.0 6.0" dir="0 0 -1" diffuse="0.4 0.4 0.4" specular="0.1 0.1 0.1"/>
+        <light pos="-15.0 9.0 6.0" dir="0 0 -1" diffuse="0.4 0.4 0.4" specular="0.1 0.1 0.1"/>
+        <light pos="-7.0 -9.0 6.0" dir="0 0 -1" diffuse="0.4 0.4 0.4" specular="0.1 0.1 0.1"/>
+        <light pos="-7.0 0.0 6.0" dir="0 0 -1" diffuse="0.4 0.4 0.4" specular="0.1 0.1 0.1"/>
+        <light pos="-7.0 9.0 6.0" dir="0 0 -1" diffuse="0.4 0.4 0.4" specular="0.1 0.1 0.1"/>
+        <light pos="0.0 -9.0 6.0" dir="0 0 -1" diffuse="0.4 0.4 0.4" specular="0.1 0.1 0.1"/>
+        <light pos="0.0 0.0 6.0" dir="0 0 -1" diffuse="0.4 0.4 0.4" specular="0.1 0.1 0.1"/>
+        <light pos="0.0 9.0 6.0" dir="0 0 -1" diffuse="0.4 0.4 0.4" specular="0.1 0.1 0.1"/>
+        <light pos="7.0 -9.0 6.0" dir="0 0 -1" diffuse="0.4 0.4 0.4" specular="0.1 0.1 0.1"/>
+        <light pos="7.0 0.0 6.0" dir="0 0 -1" diffuse="0.4 0.4 0.4" specular="0.1 0.1 0.1"/>
+        <light pos="7.0 9.0 6.0" dir="0 0 -1" diffuse="0.4 0.4 0.4" specular="0.1 0.1 0.1"/>
+        <light pos="15.0 -9.0 6.0" dir="0 0 -1" diffuse="0.4 0.4 0.4" specular="0.1 0.1 0.1"/>
+        <light pos="15.0 0.0 6.0" dir="0 0 -1" diffuse="0.4 0.4 0.4" specular="0.1 0.1 0.1"/>
+        <light pos="15.0 9.0 6.0" dir="0 0 -1" diffuse="0.4 0.4 0.4" specular="0.1 0.1 0.1"/>
+        <light pos="-18 -10 5" dir="0.5 0.3 -1" diffuse="0.2 0.2 0.2"/>
+        <light pos="18 10 5"   dir="-0.5 -0.3 -1" diffuse="0.2 0.2 0.2"/>
+        <light pos="0 -11.0 4.0" dir="0 0 -1" diffuse="0.1 0.1 0.2"/>
+        <light pos="0 -7.0 4.0" dir="0 0 -1" diffuse="0.1 0.1 0.2"/>
+        <light pos="0 -3.5 4.0" dir="0 0 -1" diffuse="0.1 0.1 0.2"/>
+        <light pos="0 3.5 4.0" dir="0 0 -1" diffuse="0.1 0.1 0.2"/>
+        <light pos="0 7.0 4.0" dir="0 0 -1" diffuse="0.1 0.1 0.2"/>
+        <light pos="0 11.0 4.0" dir="0 0 -1" diffuse="0.1 0.1 0.2"/>
         <geom name="floor" type="plane" size="22.0 14.0 0.5" material="mat_floor" pos="0 0 0"/>
         <geom class="env_visual" name="wall_north" type="box" pos="0.000 14.000 3.500" size="22.000 0.050 3.500" material="mat_wall"/>
         <geom class="env_solid" name="wall_north_col" type="box" pos="0.000 14.000 3.500" size="22.000 0.050 3.500"/>
@@ -2605,134 +2613,203 @@
         <geom class="env_visual" name="charge_pad_1" type="cylinder" pos="-20.000 12.000 0.040" size="0.350 0.040" material="mat_charge"/>
         <geom class="env_visual" name="charge_pad_2" type="cylinder" pos="10.000 -12.000 0.040" size="0.350 0.040" material="mat_charge"/>
         <geom class="env_visual" name="charge_pad_3" type="cylinder" pos="10.000 12.000 0.040" size="0.350 0.040" material="mat_charge"/>
-        <geom class="env_visual" name="pile_z0_b0" type="box" pos="-19.298 -8.715 0.430" size="0.180 0.280 0.140" euler="0.00 0.00 43.16" material="mat_box_yellow"/>
-        <geom class="env_solid" name="pile_z0_b0_col" type="box" pos="-19.298 -8.715 0.430" size="0.180 0.280 0.140" euler="0.00 0.00 43.16"/>
-        <geom class="env_visual" name="pile_z0_b1" type="box" pos="-18.922 -8.891 0.150" size="0.150 0.150 0.150" euler="0.00 0.00 46.95" material="mat_box_yellow"/>
-        <geom class="env_solid" name="pile_z0_b1_col" type="box" pos="-18.922 -8.891 0.150" size="0.150 0.150 0.150" euler="0.00 0.00 46.95"/>
-        <geom class="env_visual" name="pile_z0_b2" type="box" pos="-20.521 -8.508 0.490" size="0.280 0.220 0.160" euler="0.00 0.00 61.12" material="mat_box_yellow"/>
-        <geom class="env_solid" name="pile_z0_b2_col" type="box" pos="-20.521 -8.508 0.490" size="0.280 0.220 0.160" euler="0.00 0.00 61.12"/>
-        <geom class="env_visual" name="pile_z0_b3" type="box" pos="-18.461 -9.173 0.250" size="0.300 0.400 0.250" euler="0.00 0.00 18.50" material="mat_box_yellow"/>
-        <geom class="env_solid" name="pile_z0_b3_col" type="box" pos="-18.461 -9.173 0.250" size="0.300 0.400 0.250" euler="0.00 0.00 18.50"/>
-        <geom class="env_visual" name="pile_z0_b4" type="box" pos="-19.200 -8.525 0.820" size="0.280 0.220 0.160" euler="0.00 0.00 24.05" material="mat_box_yellow"/>
-        <geom class="env_solid" name="pile_z0_b4_col" type="box" pos="-19.200 -8.525 0.820" size="0.280 0.220 0.160" euler="0.00 0.00 24.05"/>
-        <geom class="env_visual" name="pile_z0_b5" type="box" pos="-19.569 -9.045 0.430" size="0.180 0.280 0.140" euler="0.00 0.00 49.64" material="mat_box_yellow"/>
-        <geom class="env_solid" name="pile_z0_b5_col" type="box" pos="-19.569 -9.045 0.430" size="0.180 0.280 0.140" euler="0.00 0.00 49.64"/>
-        <geom class="env_visual" name="pile_z0_b6" type="box" pos="-20.412 -9.395 0.150" size="0.150 0.150 0.150" euler="0.00 0.00 35.01" material="mat_box_yellow"/>
-        <geom class="env_solid" name="pile_z0_b6_col" type="box" pos="-20.412 -9.395 0.150" size="0.150 0.150 0.150" euler="0.00 0.00 35.01"/>
-        <geom class="env_visual" name="pile_z0_b7" type="box" pos="-19.606 -8.728 0.160" size="0.280 0.220 0.160" euler="0.00 0.00 54.76" material="mat_box_yellow"/>
-        <geom class="env_solid" name="pile_z0_b7_col" type="box" pos="-19.606 -8.728 0.160" size="0.280 0.220 0.160" euler="0.00 0.00 54.76"/>
-        <geom class="env_visual" name="pile_z1_b0" type="box" pos="-19.992 9.519 0.910" size="0.300 0.300 0.300" euler="0.00 0.00 66.96" material="mat_box_yellow"/>
-        <geom class="env_solid" name="pile_z1_b0_col" type="box" pos="-19.992 9.519 0.910" size="0.300 0.300 0.300" euler="0.00 0.00 66.96"/>
-        <geom class="env_visual" name="pile_z1_b1" type="box" pos="-20.170 8.920 0.610" size="0.350 0.250 0.200" euler="0.00 0.00 16.06" material="mat_box_yellow"/>
-        <geom class="env_solid" name="pile_z1_b1_col" type="box" pos="-20.170 8.920 0.610" size="0.350 0.250 0.200" euler="0.00 0.00 16.06"/>
-        <geom class="env_visual" name="pile_z1_b2" type="box" pos="-20.292 8.851 0.610" size="0.250 0.300 0.200" euler="0.00 0.00 22.15" material="mat_box_yellow"/>
-        <geom class="env_solid" name="pile_z1_b2_col" type="box" pos="-20.292 8.851 0.610" size="0.250 0.300 0.200" euler="0.00 0.00 22.15"/>
-        <geom class="env_visual" name="pile_z1_b3" type="box" pos="-19.845 8.491 0.610" size="0.200 0.200 0.200" euler="0.00 0.00 59.45" material="mat_box_yellow"/>
-        <geom class="env_solid" name="pile_z1_b3_col" type="box" pos="-19.845 8.491 0.610" size="0.200 0.200 0.200" euler="0.00 0.00 59.45"/>
-        <geom class="env_visual" name="pile_z1_b4" type="box" pos="-18.761 8.781 0.200" size="0.200 0.200 0.200" euler="0.00 0.00 38.51" material="mat_box_yellow"/>
-        <geom class="env_solid" name="pile_z1_b4_col" type="box" pos="-18.761 8.781 0.200" size="0.200 0.200 0.200" euler="0.00 0.00 38.51"/>
-        <geom class="env_visual" name="pile_z1_b5" type="box" pos="-18.665 9.247 0.610" size="0.350 0.250 0.200" euler="0.00 0.00 82.22" material="mat_box_yellow"/>
-        <geom class="env_solid" name="pile_z1_b5_col" type="box" pos="-18.665 9.247 0.610" size="0.350 0.250 0.200" euler="0.00 0.00 82.22"/>
-        <geom class="env_visual" name="pile_z1_b6" type="box" pos="-19.714 9.136 0.180" size="0.220 0.180 0.180" euler="0.00 0.00 2.50" material="mat_box_yellow"/>
-        <geom class="env_solid" name="pile_z1_b6_col" type="box" pos="-19.714 9.136 0.180" size="0.220 0.180 0.180" euler="0.00 0.00 2.50"/>
-        <geom class="env_visual" name="pile_z1_b7" type="box" pos="-19.902 9.164 0.140" size="0.180 0.280 0.140" euler="0.00 0.00 87.22" material="mat_box_yellow"/>
-        <geom class="env_solid" name="pile_z1_b7_col" type="box" pos="-19.902 9.164 0.140" size="0.180 0.280 0.140" euler="0.00 0.00 87.22"/>
-        <geom class="env_visual" name="pile_z2_b0" type="box" pos="12.453 -9.113 0.550" size="0.220 0.180 0.180" euler="0.00 0.00 65.23" material="mat_box_yellow"/>
-        <geom class="env_solid" name="pile_z2_b0_col" type="box" pos="12.453 -9.113 0.550" size="0.220 0.180 0.180" euler="0.00 0.00 65.23"/>
-        <geom class="env_visual" name="pile_z2_b1" type="box" pos="13.778 -9.388 0.760" size="0.300 0.400 0.250" euler="0.00 0.00 21.16" material="mat_box_yellow"/>
-        <geom class="env_solid" name="pile_z2_b1_col" type="box" pos="13.778 -9.388 0.760" size="0.300 0.400 0.250" euler="0.00 0.00 21.16"/>
-        <geom class="env_visual" name="pile_z2_b2" type="box" pos="12.694 -8.897 0.430" size="0.180 0.280 0.140" euler="0.00 0.00 21.85" material="mat_box_yellow"/>
-        <geom class="env_solid" name="pile_z2_b2_col" type="box" pos="12.694 -8.897 0.430" size="0.180 0.280 0.140" euler="0.00 0.00 21.85"/>
-        <geom class="env_visual" name="pile_z2_b3" type="box" pos="13.056 -8.387 0.490" size="0.280 0.220 0.160" euler="0.00 0.00 29.11" material="mat_box_yellow"/>
-        <geom class="env_solid" name="pile_z2_b3_col" type="box" pos="13.056 -8.387 0.490" size="0.280 0.220 0.160" euler="0.00 0.00 29.11"/>
-        <geom class="env_visual" name="pile_z2_b4" type="box" pos="13.574 -8.813 0.250" size="0.300 0.400 0.250" euler="0.00 0.00 74.15" material="mat_box_yellow"/>
-        <geom class="env_solid" name="pile_z2_b4_col" type="box" pos="13.574 -8.813 0.250" size="0.300 0.400 0.250" euler="0.00 0.00 74.15"/>
-        <geom class="env_visual" name="pile_z2_b5" type="box" pos="14.293 -8.688 0.180" size="0.220 0.180 0.180" euler="0.00 0.00 56.00" material="mat_box_yellow"/>
-        <geom class="env_solid" name="pile_z2_b5_col" type="box" pos="14.293 -8.688 0.180" size="0.220 0.180 0.180" euler="0.00 0.00 56.00"/>
-        <geom class="env_visual" name="pile_z3_b0" type="box" pos="13.241 8.706 0.910" size="0.400 0.300 0.300" euler="0.00 0.00 25.82" material="mat_box_yellow"/>
-        <geom class="env_solid" name="pile_z3_b0_col" type="box" pos="13.241 8.706 0.910" size="0.400 0.300 0.300" euler="0.00 0.00 25.82"/>
-        <geom class="env_visual" name="pile_z3_b1" type="box" pos="13.206 9.232 0.200" size="0.250 0.300 0.200" euler="0.00 0.00 60.60" material="mat_box_yellow"/>
-        <geom class="env_solid" name="pile_z3_b1_col" type="box" pos="13.206 9.232 0.200" size="0.250 0.300 0.200" euler="0.00 0.00 60.60"/>
-        <geom class="env_visual" name="pile_z3_b2" type="box" pos="12.465 8.475 0.550" size="0.220 0.180 0.180" euler="0.00 0.00 14.37" material="mat_box_yellow"/>
-        <geom class="env_solid" name="pile_z3_b2_col" type="box" pos="12.465 8.475 0.550" size="0.220 0.180 0.180" euler="0.00 0.00 14.37"/>
-        <geom class="env_visual" name="pile_z3_b3" type="box" pos="14.241 9.010 0.770" size="0.150 0.150 0.150" euler="0.00 0.00 27.80" material="mat_box_yellow"/>
-        <geom class="env_solid" name="pile_z3_b3_col" type="box" pos="14.241 9.010 0.770" size="0.150 0.150 0.150" euler="0.00 0.00 27.80"/>
-        <geom class="env_visual" name="pile_z3_b4" type="box" pos="12.319 9.481 0.610" size="0.200 0.200 0.200" euler="0.00 0.00 17.29" material="mat_box_yellow"/>
-        <geom class="env_solid" name="pile_z3_b4_col" type="box" pos="12.319 9.481 0.610" size="0.200 0.200 0.200" euler="0.00 0.00 17.29"/>
-        <geom class="env_visual" name="pile_z3_b5" type="box" pos="13.856 9.037 0.200" size="0.250 0.300 0.200" euler="0.00 0.00 64.03" material="mat_box_yellow"/>
-        <geom class="env_solid" name="pile_z3_b5_col" type="box" pos="13.856 9.037 0.200" size="0.250 0.300 0.200" euler="0.00 0.00 64.03"/>
-        <geom class="env_visual" name="pile_z4_b0" type="box" pos="1.071 -11.829 0.550" size="0.220 0.180 0.180" euler="0.00 0.00 48.99" material="mat_box_yellow"/>
-        <geom class="env_solid" name="pile_z4_b0_col" type="box" pos="1.071 -11.829 0.550" size="0.220 0.180 0.180" euler="0.00 0.00 48.99"/>
-        <geom class="env_visual" name="pile_z4_b1" type="box" pos="0.253 -12.272 0.200" size="0.200 0.200 0.200" euler="0.00 0.00 84.46" material="mat_box_yellow"/>
-        <geom class="env_solid" name="pile_z4_b1_col" type="box" pos="0.253 -12.272 0.200" size="0.200 0.200 0.200" euler="0.00 0.00 84.46"/>
-        <geom class="env_visual" name="pile_z4_b2" type="box" pos="-0.140 -12.078 0.180" size="0.220 0.180 0.180" euler="0.00 0.00 0.69" material="mat_box_yellow"/>
-        <geom class="env_solid" name="pile_z4_b2_col" type="box" pos="-0.140 -12.078 0.180" size="0.220 0.180 0.180" euler="0.00 0.00 0.69"/>
-        <geom class="env_visual" name="pile_z4_b3" type="box" pos="-0.906 -12.029 0.430" size="0.180 0.280 0.140" euler="0.00 0.00 29.04" material="mat_box_yellow"/>
-        <geom class="env_solid" name="pile_z4_b3_col" type="box" pos="-0.906 -12.029 0.430" size="0.180 0.280 0.140" euler="0.00 0.00 29.04"/>
-        <geom class="env_visual" name="pile_z4_b4" type="box" pos="0.619 -12.236 0.610" size="0.350 0.250 0.200" euler="0.00 0.00 30.47" material="mat_box_yellow"/>
-        <geom class="env_solid" name="pile_z4_b4_col" type="box" pos="0.619 -12.236 0.610" size="0.350 0.250 0.200" euler="0.00 0.00 30.47"/>
-        <geom class="env_visual" name="pile_z4_b5" type="box" pos="-1.225 -12.672 0.180" size="0.220 0.180 0.180" euler="0.00 0.00 34.73" material="mat_box_yellow"/>
-        <geom class="env_solid" name="pile_z4_b5_col" type="box" pos="-1.225 -12.672 0.180" size="0.220 0.180 0.180" euler="0.00 0.00 34.73"/>
-        <geom class="env_visual" name="pile_z5_b0" type="box" pos="17.971 -1.516 1.020" size="0.200 0.200 0.200" euler="0.00 0.00 72.29" material="mat_box_yellow"/>
-        <geom class="env_solid" name="pile_z5_b0_col" type="box" pos="17.971 -1.516 1.020" size="0.200 0.200 0.200" euler="0.00 0.00 72.29"/>
-        <geom class="env_visual" name="pile_z5_b1" type="box" pos="18.125 -2.229 0.610" size="0.250 0.300 0.200" euler="0.00 0.00 8.75" material="mat_box_yellow"/>
-        <geom class="env_solid" name="pile_z5_b1_col" type="box" pos="18.125 -2.229 0.610" size="0.250 0.300 0.200" euler="0.00 0.00 8.75"/>
-        <geom class="env_visual" name="pile_z5_b2" type="box" pos="17.507 -2.745 0.910" size="0.300 0.300 0.300" euler="0.00 0.00 44.05" material="mat_box_yellow"/>
-        <geom class="env_solid" name="pile_z5_b2_col" type="box" pos="17.507 -2.745 0.910" size="0.300 0.300 0.300" euler="0.00 0.00 44.05"/>
-        <geom class="env_visual" name="pile_z5_b3" type="box" pos="17.873 -5.369 0.200" size="0.350 0.250 0.200" euler="0.00 0.00 66.70" material="mat_box_yellow"/>
-        <geom class="env_solid" name="pile_z5_b3_col" type="box" pos="17.873 -5.369 0.200" size="0.350 0.250 0.200" euler="0.00 0.00 66.70"/>
-        <geom class="env_visual" name="pile_z5_b4" type="box" pos="16.134 -3.602 0.720" size="0.180 0.280 0.140" euler="0.00 0.00 29.78" material="mat_box_yellow"/>
-        <geom class="env_solid" name="pile_z5_b4_col" type="box" pos="16.134 -3.602 0.720" size="0.180 0.280 0.140" euler="0.00 0.00 29.78"/>
-        <geom class="env_visual" name="pile_z5_b5" type="box" pos="19.061 -1.467 0.490" size="0.280 0.220 0.160" euler="0.00 0.00 34.25" material="mat_box_yellow"/>
-        <geom class="env_solid" name="pile_z5_b5_col" type="box" pos="19.061 -1.467 0.490" size="0.280 0.220 0.160" euler="0.00 0.00 34.25"/>
-        <geom class="env_visual" name="pile_z5_b6" type="box" pos="15.397 -3.639 0.550" size="0.220 0.180 0.180" euler="0.00 0.00 80.98" material="mat_box_yellow"/>
-        <geom class="env_solid" name="pile_z5_b6_col" type="box" pos="15.397 -3.639 0.550" size="0.220 0.180 0.180" euler="0.00 0.00 80.98"/>
-        <geom class="env_visual" name="pile_z5_b7" type="box" pos="19.411 -3.472 0.910" size="0.400 0.300 0.300" euler="0.00 0.00 7.13" material="mat_box_yellow"/>
-        <geom class="env_solid" name="pile_z5_b7_col" type="box" pos="19.411 -3.472 0.910" size="0.400 0.300 0.300" euler="0.00 0.00 7.13"/>
-        <geom class="env_visual" name="pile_z5_b8" type="box" pos="19.726 -3.027 0.760" size="0.300 0.400 0.250" euler="0.00 0.00 25.89" material="mat_box_yellow"/>
-        <geom class="env_solid" name="pile_z5_b8_col" type="box" pos="19.726 -3.027 0.760" size="0.300 0.400 0.250" euler="0.00 0.00 25.89"/>
-        <geom class="env_visual" name="pile_z5_b9" type="box" pos="17.344 -4.816 0.250" size="0.300 0.400 0.250" euler="0.00 0.00 82.10" material="mat_box_yellow"/>
-        <geom class="env_solid" name="pile_z5_b9_col" type="box" pos="17.344 -4.816 0.250" size="0.300 0.400 0.250" euler="0.00 0.00 82.10"/>
-        <geom class="env_visual" name="pile_z5_b10" type="box" pos="17.828 -5.558 0.920" size="0.220 0.180 0.180" euler="0.00 0.00 63.91" material="mat_box_yellow"/>
-        <geom class="env_solid" name="pile_z5_b10_col" type="box" pos="17.828 -5.558 0.920" size="0.220 0.180 0.180" euler="0.00 0.00 63.91"/>
-        <geom class="env_visual" name="pile_z5_b11" type="box" pos="18.521 -4.971 0.150" size="0.150 0.150 0.150" euler="0.00 0.00 16.38" material="mat_box_yellow"/>
-        <geom class="env_solid" name="pile_z5_b11_col" type="box" pos="18.521 -4.971 0.150" size="0.150 0.150 0.150" euler="0.00 0.00 16.38"/>
-        <geom class="env_visual" name="pile_z5_b12" type="box" pos="16.164 -4.755 0.490" size="0.280 0.220 0.160" euler="0.00 0.00 24.02" material="mat_box_yellow"/>
-        <geom class="env_solid" name="pile_z5_b12_col" type="box" pos="16.164 -4.755 0.490" size="0.280 0.220 0.160" euler="0.00 0.00 24.02"/>
-        <geom class="env_visual" name="pile_z5_b13" type="box" pos="19.458 -4.251 0.300" size="0.400 0.300 0.300" euler="0.00 0.00 59.97" material="mat_box_yellow"/>
-        <geom class="env_solid" name="pile_z5_b13_col" type="box" pos="19.458 -4.251 0.300" size="0.400 0.300 0.300" euler="0.00 0.00 59.97"/>
-        <geom class="env_visual" name="pile_z5_b14" type="box" pos="18.902 -2.745 0.610" size="0.200 0.200 0.200" euler="0.00 0.00 12.90" material="mat_box_yellow"/>
-        <geom class="env_solid" name="pile_z5_b14_col" type="box" pos="18.902 -2.745 0.610" size="0.200 0.200 0.200" euler="0.00 0.00 12.90"/>
-        <geom class="env_visual" name="pile_z5_b15" type="box" pos="18.466 -3.647 0.610" size="0.250 0.300 0.200" euler="0.00 0.00 86.15" material="mat_box_yellow"/>
-        <geom class="env_solid" name="pile_z5_b15_col" type="box" pos="18.466 -3.647 0.610" size="0.250 0.300 0.200" euler="0.00 0.00 86.15"/>
-        <geom class="env_visual" name="pile_z5_b16" type="box" pos="18.911 -2.384 1.020" size="0.200 0.200 0.200" euler="0.00 0.00 5.08" material="mat_box_yellow"/>
-        <geom class="env_solid" name="pile_z5_b16_col" type="box" pos="18.911 -2.384 1.020" size="0.200 0.200 0.200" euler="0.00 0.00 5.08"/>
-        <geom class="env_visual" name="pile_z5_b17" type="box" pos="18.874 -4.831 1.520" size="0.400 0.300 0.300" euler="0.00 0.00 16.26" material="mat_box_yellow"/>
-        <geom class="env_solid" name="pile_z5_b17_col" type="box" pos="18.874 -4.831 1.520" size="0.400 0.300 0.300" euler="0.00 0.00 16.26"/>
-        <geom class="env_visual" name="pile_z6_b0" type="box" pos="20.092 4.484 1.020" size="0.250 0.300 0.200" euler="0.00 0.00 10.01" material="mat_box_yellow"/>
-        <geom class="env_solid" name="pile_z6_b0_col" type="box" pos="20.092 4.484 1.020" size="0.250 0.300 0.200" euler="0.00 0.00 10.01"/>
-        <geom class="env_visual" name="pile_z6_b1" type="box" pos="17.206 1.954 0.250" size="0.300 0.400 0.250" euler="0.00 0.00 23.21" material="mat_box_yellow"/>
-        <geom class="env_solid" name="pile_z6_b1_col" type="box" pos="17.206 1.954 0.250" size="0.300 0.400 0.250" euler="0.00 0.00 23.21"/>
-        <geom class="env_visual" name="pile_z6_b2" type="box" pos="18.776 2.152 0.460" size="0.150 0.150 0.150" euler="0.00 0.00 0.88" material="mat_box_yellow"/>
-        <geom class="env_solid" name="pile_z6_b2_col" type="box" pos="18.776 2.152 0.460" size="0.150 0.150 0.150" euler="0.00 0.00 0.88"/>
-        <geom class="env_visual" name="pile_z6_b3" type="box" pos="19.762 5.462 0.300" size="0.400 0.300 0.300" euler="0.00 0.00 66.53" material="mat_box_yellow"/>
-        <geom class="env_solid" name="pile_z6_b3_col" type="box" pos="19.762 5.462 0.300" size="0.400 0.300 0.300" euler="0.00 0.00 66.53"/>
-        <geom class="env_visual" name="pile_z6_b4" type="box" pos="18.943 4.706 0.460" size="0.150 0.150 0.150" euler="0.00 0.00 14.30" material="mat_box_yellow"/>
-        <geom class="env_solid" name="pile_z6_b4_col" type="box" pos="18.943 4.706 0.460" size="0.150 0.150 0.150" euler="0.00 0.00 14.30"/>
-        <geom class="env_visual" name="pile_z6_b5" type="box" pos="19.505 5.598 0.180" size="0.220 0.180 0.180" euler="0.00 0.00 50.94" material="mat_box_yellow"/>
-        <geom class="env_solid" name="pile_z6_b5_col" type="box" pos="19.505 5.598 0.180" size="0.220 0.180 0.180" euler="0.00 0.00 50.94"/>
-        <geom class="env_visual" name="pile_z6_b6" type="box" pos="18.110 4.573 1.020" size="0.250 0.300 0.200" euler="0.00 0.00 74.83" material="mat_box_yellow"/>
-        <geom class="env_solid" name="pile_z6_b6_col" type="box" pos="18.110 4.573 1.020" size="0.250 0.300 0.200" euler="0.00 0.00 74.83"/>
-        <geom class="env_visual" name="pile_z6_b7" type="box" pos="17.764 5.626 0.550" size="0.220 0.180 0.180" euler="0.00 0.00 37.06" material="mat_box_yellow"/>
-        <geom class="env_solid" name="pile_z6_b7_col" type="box" pos="17.764 5.626 0.550" size="0.220 0.180 0.180" euler="0.00 0.00 37.06"/>
-        <geom class="env_visual" name="pile_z6_b8" type="box" pos="18.381 4.682 1.520" size="0.400 0.300 0.300" euler="0.00 0.00 39.44" material="mat_box_yellow"/>
-        <geom class="env_solid" name="pile_z6_b8_col" type="box" pos="18.381 4.682 1.520" size="0.400 0.300 0.300" euler="0.00 0.00 39.44"/>
-        <geom class="env_visual" name="pile_z6_b9" type="box" pos="16.699 5.125 0.910" size="0.400 0.300 0.300" euler="0.00 0.00 69.45" material="mat_box_yellow"/>
-        <geom class="env_solid" name="pile_z6_b9_col" type="box" pos="16.699 5.125 0.910" size="0.400 0.300 0.300" euler="0.00 0.00 69.45"/>
-        <geom class="env_visual" name="pile_z6_b10" type="box" pos="18.256 4.039 1.020" size="0.200 0.200 0.200" euler="0.00 0.00 84.86" material="mat_box_yellow"/>
-        <geom class="env_solid" name="pile_z6_b10_col" type="box" pos="18.256 4.039 1.020" size="0.200 0.200 0.200" euler="0.00 0.00 84.86"/>
-        <geom class="env_visual" name="pile_z6_b11" type="box" pos="19.006 2.061 0.490" size="0.280 0.220 0.160" euler="0.00 0.00 86.12" material="mat_box_yellow"/>
-        <geom class="env_solid" name="pile_z6_b11_col" type="box" pos="19.006 2.061 0.490" size="0.280 0.220 0.160" euler="0.00 0.00 86.12"/>
+        <body name="dyn_pile_z0_b0" pos="-19.298 -8.715 0.430" euler="0.00 0.00 43.16">
+            <freejoint name="joint_pile_z0_b0"/>
+            <geom name="pile_z0_b0" type="box" size="0.180 0.280 0.140" material="mat_box_yellow" density="100.0" contype="1" conaffinity="1" group="3"/>
+            <geom name="pile_z0_b0_visual" type="box" size="0.180 0.280 0.140" material="mat_box_yellow" contype="0" conaffinity="0" group="2"/>
+        </body>
+        <geom class="env_visual" name="pile_z0_b1" type="box" pos="-19.343 -8.514 0.200" size="0.250 0.300 0.200" euler="0.00 0.00 46.95" material="mat_box_yellow"/>
+        <geom class="env_solid" name="pile_z0_b1_col" type="box" pos="-19.343 -8.514 0.200" size="0.250 0.300 0.200" euler="0.00 0.00 46.95"/>
+        <geom class="env_visual" name="pile_z0_b2" type="box" pos="-19.271 -8.408 0.610" size="0.250 0.300 0.200" euler="0.00 0.00 4.19" material="mat_box_yellow"/>
+        <geom class="env_solid" name="pile_z0_b2_col" type="box" pos="-19.271 -8.408 0.610" size="0.250 0.300 0.200" euler="0.00 0.00 4.19"/>
+        <geom class="env_visual" name="pile_z0_b3" type="box" pos="-20.166 -8.461 0.920" size="0.220 0.180 0.180" euler="0.00 0.00 56.54" material="mat_box_yellow"/>
+        <geom class="env_solid" name="pile_z0_b3_col" type="box" pos="-20.166 -8.461 0.920" size="0.220 0.180 0.180" euler="0.00 0.00 56.54"/>
+        <body name="dyn_pile_z0_b4" pos="-20.045 -8.891 0.160" euler="0.00 0.00 41.96">
+            <freejoint name="joint_pile_z0_b4"/>
+            <geom name="pile_z0_b4" type="box" size="0.280 0.220 0.160" material="mat_box_yellow" density="100.0" contype="1" conaffinity="1" group="3"/>
+            <geom name="pile_z0_b4_visual" type="box" size="0.280 0.220 0.160" material="mat_box_yellow" contype="0" conaffinity="0" group="2"/>
+        </body>
+        <body name="dyn_pile_z0_b5" pos="-19.691 -8.667 0.140" euler="0.00 0.00 10.66">
+            <freejoint name="joint_pile_z0_b5"/>
+            <geom name="pile_z0_b5" type="box" size="0.180 0.280 0.140" material="mat_box_yellow" density="100.0" contype="1" conaffinity="1" group="3"/>
+            <geom name="pile_z0_b5_visual" type="box" size="0.180 0.280 0.140" material="mat_box_yellow" contype="0" conaffinity="0" group="2"/>
+        </body>
+        <geom class="env_visual" name="pile_z0_b6" type="box" pos="-19.606 -8.728 0.160" size="0.280 0.220 0.160" euler="0.00 0.00 54.76" material="mat_box_yellow"/>
+        <geom class="env_solid" name="pile_z0_b6_col" type="box" pos="-19.606 -8.728 0.160" size="0.280 0.220 0.160" euler="0.00 0.00 54.76"/>
+        <geom class="env_visual" name="pile_z0_b7" type="box" pos="-19.048 -8.264 0.200" size="0.200 0.200 0.200" euler="0.00 0.00 17.59" material="mat_box_yellow"/>
+        <geom class="env_solid" name="pile_z0_b7_col" type="box" pos="-19.048 -8.264 0.200" size="0.200 0.200 0.200" euler="0.00 0.00 17.59"/>
+        <body name="dyn_pile_z1_b0" pos="-20.336 9.371 0.150" euler="0.00 0.00 27.12">
+            <freejoint name="joint_pile_z1_b0"/>
+            <geom name="pile_z1_b0" type="box" size="0.150 0.150 0.150" material="mat_box_yellow" density="100.0" contype="1" conaffinity="1" group="3"/>
+            <geom name="pile_z1_b0_visual" type="box" size="0.150 0.150 0.150" material="mat_box_yellow" contype="0" conaffinity="0" group="2"/>
+        </body>
+        <geom class="env_visual" name="pile_z1_b1" type="box" pos="-19.864 8.834 0.200" size="0.350 0.250 0.200" euler="0.00 0.00 14.19" material="mat_box_yellow"/>
+        <geom class="env_solid" name="pile_z1_b1_col" type="box" pos="-19.864 8.834 0.200" size="0.350 0.250 0.200" euler="0.00 0.00 14.19"/>
+        <geom class="env_visual" name="pile_z1_b2" type="box" pos="-18.761 8.781 0.200" size="0.200 0.200 0.200" euler="0.00 0.00 38.51" material="mat_box_yellow"/>
+        <geom class="env_solid" name="pile_z1_b2_col" type="box" pos="-18.761 8.781 0.200" size="0.200 0.200 0.200" euler="0.00 0.00 38.51"/>
+        <geom class="env_visual" name="pile_z1_b3" type="box" pos="-19.027 9.443 0.610" size="0.250 0.300 0.200" euler="0.00 0.00 83.73" material="mat_box_yellow"/>
+        <geom class="env_solid" name="pile_z1_b3_col" type="box" pos="-19.027 9.443 0.610" size="0.250 0.300 0.200" euler="0.00 0.00 83.73"/>
+        <geom class="env_visual" name="pile_z1_b4" type="box" pos="-19.597 8.367 0.720" size="0.180 0.280 0.140" euler="0.00 0.00 29.52" material="mat_box_yellow"/>
+        <geom class="env_solid" name="pile_z1_b4_col" type="box" pos="-19.597 8.367 0.720" size="0.180 0.280 0.140" euler="0.00 0.00 29.52"/>
+        <geom class="env_visual" name="pile_z1_b5" type="box" pos="-18.515 8.987 0.760" size="0.300 0.400 0.250" euler="0.00 0.00 0.88" material="mat_box_yellow"/>
+        <geom class="env_solid" name="pile_z1_b5_col" type="box" pos="-18.515 8.987 0.760" size="0.300 0.400 0.250" euler="0.00 0.00 0.88"/>
+        <geom class="env_visual" name="pile_z1_b6" type="box" pos="-19.222 8.612 0.760" size="0.300 0.400 0.250" euler="0.00 0.00 21.16" material="mat_box_yellow"/>
+        <geom class="env_solid" name="pile_z1_b6_col" type="box" pos="-19.222 8.612 0.760" size="0.300 0.400 0.250" euler="0.00 0.00 21.16"/>
+        <body name="dyn_pile_z1_b7" pos="-19.300 9.394 0.150" euler="0.00 0.00 24.46">
+            <freejoint name="joint_pile_z1_b7"/>
+            <geom name="pile_z1_b7" type="box" size="0.150 0.150 0.150" material="mat_box_yellow" density="100.0" contype="1" conaffinity="1" group="3"/>
+            <geom name="pile_z1_b7_visual" type="box" size="0.150 0.150 0.150" material="mat_box_yellow" contype="0" conaffinity="0" group="2"/>
+        </body>
+        <geom class="env_visual" name="pile_z2_b0" type="box" pos="13.151 -9.334 1.520" size="0.300 0.300 0.300" euler="0.00 0.00 66.74" material="mat_box_yellow"/>
+        <geom class="env_solid" name="pile_z2_b0_col" type="box" pos="13.151 -9.334 1.520" size="0.300 0.300 0.300" euler="0.00 0.00 66.74"/>
+        <geom class="env_visual" name="pile_z2_b1" type="box" pos="14.245 -8.827 0.610" size="0.250 0.300 0.200" euler="0.00 0.00 74.02" material="mat_box_yellow"/>
+        <geom class="env_solid" name="pile_z2_b1_col" type="box" pos="14.245 -8.827 0.610" size="0.250 0.300 0.200" euler="0.00 0.00 74.02"/>
+        <body name="dyn_pile_z2_b2" pos="13.781 -8.834 0.610" euler="0.00 0.00 27.36">
+            <freejoint name="joint_pile_z2_b2"/>
+            <geom name="pile_z2_b2" type="box" size="0.250 0.300 0.200" material="mat_box_yellow" density="100.0" contype="1" conaffinity="1" group="3"/>
+            <geom name="pile_z2_b2_visual" type="box" size="0.250 0.300 0.200" material="mat_box_yellow" contype="0" conaffinity="0" group="2"/>
+        </body>
+        <geom class="env_visual" name="pile_z2_b3" type="box" pos="13.989 -9.192 1.020" size="0.200 0.200 0.200" euler="0.00 0.00 67.95" material="mat_box_yellow"/>
+        <geom class="env_solid" name="pile_z2_b3_col" type="box" pos="13.989 -9.192 1.020" size="0.200 0.200 0.200" euler="0.00 0.00 67.95"/>
+        <geom class="env_visual" name="pile_z2_b4" type="box" pos="14.470 -9.020 1.020" size="0.250 0.300 0.200" euler="0.00 0.00 12.61" material="mat_box_yellow"/>
+        <geom class="env_solid" name="pile_z2_b4_col" type="box" pos="14.470 -9.020 1.020" size="0.250 0.300 0.200" euler="0.00 0.00 12.61"/>
+        <body name="dyn_pile_z2_b5" pos="13.341 -8.977 1.020" euler="0.00 0.00 27.80">
+            <freejoint name="joint_pile_z2_b5"/>
+            <geom name="pile_z2_b5" type="box" size="0.200 0.200 0.200" material="mat_box_yellow" density="100.0" contype="1" conaffinity="1" group="3"/>
+            <geom name="pile_z2_b5_visual" type="box" size="0.200 0.200 0.200" material="mat_box_yellow" contype="0" conaffinity="0" group="2"/>
+        </body>
+        <geom class="env_visual" name="pile_z3_b0" type="box" pos="13.268 9.360 0.250" size="0.300 0.400 0.250" euler="0.00 0.00 58.92" material="mat_box_yellow"/>
+        <geom class="env_solid" name="pile_z3_b0_col" type="box" pos="13.268 9.360 0.250" size="0.300 0.400 0.250" euler="0.00 0.00 58.92"/>
+        <geom class="env_visual" name="pile_z3_b1" type="box" pos="13.944 8.951 0.910" size="0.400 0.300 0.300" euler="0.00 0.00 90.00" material="mat_box_yellow"/>
+        <geom class="env_solid" name="pile_z3_b1_col" type="box" pos="13.944 8.951 0.910" size="0.400 0.300 0.300" euler="0.00 0.00 90.00"/>
+        <geom class="env_visual" name="pile_z3_b2" type="box" pos="13.753 8.966 0.200" size="0.200 0.200 0.200" euler="0.00 0.00 84.46" material="mat_box_yellow"/>
+        <geom class="env_solid" name="pile_z3_b2_col" type="box" pos="13.753 8.966 0.200" size="0.200 0.200 0.200" euler="0.00 0.00 84.46"/>
+        <body name="dyn_pile_z3_b3" pos="12.428 8.724 0.160" euler="0.00 0.00 71.66">
+            <freejoint name="joint_pile_z3_b3"/>
+            <geom name="pile_z3_b3" type="box" size="0.280 0.220 0.160" material="mat_box_yellow" density="100.0" contype="1" conaffinity="1" group="3"/>
+            <geom name="pile_z3_b3_visual" type="box" size="0.280 0.220 0.160" material="mat_box_yellow" contype="0" conaffinity="0" group="2"/>
+        </body>
+        <body name="dyn_pile_z3_b4" pos="13.008 9.366 1.520" euler="0.00 0.00 67.64">
+            <freejoint name="joint_pile_z3_b4"/>
+            <geom name="pile_z3_b4" type="box" size="0.300 0.300 0.300" material="mat_box_yellow" density="100.0" contype="1" conaffinity="1" group="3"/>
+            <geom name="pile_z3_b4_visual" type="box" size="0.300 0.300 0.300" material="mat_box_yellow" contype="0" conaffinity="0" group="2"/>
+        </body>
+        <geom class="env_visual" name="pile_z3_b5" type="box" pos="12.275 8.358 0.180" size="0.220 0.180 0.180" euler="0.00 0.00 34.73" material="mat_box_yellow"/>
+        <geom class="env_solid" name="pile_z3_b5_col" type="box" pos="12.275 8.358 0.180" size="0.220 0.180 0.180" euler="0.00 0.00 34.73"/>
+        <geom class="env_visual" name="pile_z4_b0" type="box" pos="0.111 -11.809 1.020" size="0.200 0.200 0.200" euler="0.00 0.00 72.29" material="mat_box_yellow"/>
+        <geom class="env_solid" name="pile_z4_b0_col" type="box" pos="0.111 -11.809 1.020" size="0.200 0.200 0.200" euler="0.00 0.00 72.29"/>
+        <geom class="env_visual" name="pile_z4_b1" type="box" pos="-0.149 -12.157 0.430" size="0.180 0.280 0.140" euler="0.00 0.00 8.75" material="mat_box_yellow"/>
+        <geom class="env_solid" name="pile_z4_b1_col" type="box" pos="-0.149 -12.157 0.430" size="0.180 0.280 0.140" euler="0.00 0.00 8.75"/>
+        <body name="dyn_pile_z4_b2" pos="0.381 -12.530 0.550" euler="0.00 0.00 44.05">
+            <freejoint name="joint_pile_z4_b2"/>
+            <geom name="pile_z4_b2" type="box" size="0.220 0.180 0.180" material="mat_box_yellow" density="100.0" contype="1" conaffinity="1" group="3"/>
+            <geom name="pile_z4_b2_visual" type="box" size="0.220 0.180 0.180" material="mat_box_yellow" contype="0" conaffinity="0" group="2"/>
+        </body>
+        <geom class="env_visual" name="pile_z4_b3" type="box" pos="0.429 -12.105 1.270" size="0.300 0.400 0.250" euler="0.00 0.00 14.95" material="mat_box_yellow"/>
+        <geom class="env_solid" name="pile_z4_b3_col" type="box" pos="0.429 -12.105 1.270" size="0.300 0.400 0.250" euler="0.00 0.00 14.95"/>
+        <body name="dyn_pile_z4_b4" pos="-0.396 -12.238 0.720" euler="0.00 0.00 87.15">
+            <freejoint name="joint_pile_z4_b4"/>
+            <geom name="pile_z4_b4" type="box" size="0.180 0.280 0.140" material="mat_box_yellow" density="100.0" contype="1" conaffinity="1" group="3"/>
+            <geom name="pile_z4_b4_visual" type="box" size="0.180 0.280 0.140" material="mat_box_yellow" contype="0" conaffinity="0" group="2"/>
+        </body>
+        <geom class="env_visual" name="pile_z4_b5" type="box" pos="0.663 -12.305 0.460" size="0.150 0.150 0.150" euler="0.00 0.00 15.22" material="mat_box_yellow"/>
+        <geom class="env_solid" name="pile_z4_b5_col" type="box" pos="0.663 -12.305 0.460" size="0.150 0.150 0.150" euler="0.00 0.00 15.22"/>
+        <geom class="env_visual" name="pile_z5_b0" type="box" pos="19.411 -3.472 0.910" size="0.400 0.300 0.300" euler="0.00 0.00 7.13" material="mat_box_yellow"/>
+        <geom class="env_solid" name="pile_z5_b0_col" type="box" pos="19.411 -3.472 0.910" size="0.400 0.300 0.300" euler="0.00 0.00 7.13"/>
+        <body name="dyn_pile_z5_b1" pos="19.129 -4.421 0.140" euler="0.00 0.00 37.06">
+            <freejoint name="joint_pile_z5_b1"/>
+            <geom name="pile_z5_b1" type="box" size="0.180 0.280 0.140" material="mat_box_yellow" density="100.0" contype="1" conaffinity="1" group="3"/>
+            <geom name="pile_z5_b1_visual" type="box" size="0.180 0.280 0.140" material="mat_box_yellow" contype="0" conaffinity="0" group="2"/>
+        </body>
+        <geom class="env_visual" name="pile_z5_b2" type="box" pos="19.687 -3.503 0.200" size="0.350 0.250 0.200" euler="0.00 0.00 75.94" material="mat_box_yellow"/>
+        <geom class="env_solid" name="pile_z5_b2_col" type="box" pos="19.687 -3.503 0.200" size="0.350 0.250 0.200" euler="0.00 0.00 75.94"/>
+        <geom class="env_visual" name="pile_z5_b3" type="box" pos="18.521 -4.971 0.150" size="0.150 0.150 0.150" euler="0.00 0.00 16.38" material="mat_box_yellow"/>
+        <geom class="env_solid" name="pile_z5_b3_col" type="box" pos="18.521 -4.971 0.150" size="0.150 0.150 0.150" euler="0.00 0.00 16.38"/>
+        <body name="dyn_pile_z5_b4" pos="16.315 -3.690 0.550" euler="0.00 0.00 16.77">
+            <freejoint name="joint_pile_z5_b4"/>
+            <geom name="pile_z5_b4" type="box" size="0.220 0.180 0.180" material="mat_box_yellow" density="100.0" contype="1" conaffinity="1" group="3"/>
+            <geom name="pile_z5_b4_visual" type="box" size="0.220 0.180 0.180" material="mat_box_yellow" contype="0" conaffinity="0" group="2"/>
+        </body>
+        <geom class="env_visual" name="pile_z5_b5" type="box" pos="19.607 -5.305 0.250" size="0.300 0.400 0.250" euler="0.00 0.00 22.65" material="mat_box_yellow"/>
+        <geom class="env_solid" name="pile_z5_b5_col" type="box" pos="19.607 -5.305 0.250" size="0.300 0.400 0.250" euler="0.00 0.00 22.65"/>
+        <geom class="env_visual" name="pile_z5_b6" type="box" pos="19.931 -5.141 0.150" size="0.150 0.150 0.150" euler="0.00 0.00 58.42" material="mat_box_yellow"/>
+        <geom class="env_solid" name="pile_z5_b6_col" type="box" pos="19.931 -5.141 0.150" size="0.150 0.150 0.150" euler="0.00 0.00 58.42"/>
+        <geom class="env_visual" name="pile_z5_b7" type="box" pos="20.036 -4.475 0.200" size="0.200 0.200 0.200" euler="0.00 0.00 67.32" material="mat_box_yellow"/>
+        <geom class="env_solid" name="pile_z5_b7_col" type="box" pos="20.036 -4.475 0.200" size="0.200 0.200 0.200" euler="0.00 0.00 67.32"/>
+        <geom class="env_visual" name="pile_z5_b8" type="box" pos="16.231 -4.371 0.200" size="0.250 0.300 0.200" euler="0.00 0.00 71.80" material="mat_box_yellow"/>
+        <geom class="env_solid" name="pile_z5_b8_col" type="box" pos="16.231 -4.371 0.200" size="0.250 0.300 0.200" euler="0.00 0.00 71.80"/>
+        <body name="dyn_pile_z5_b9" pos="20.092 -2.516 1.020" euler="0.00 0.00 10.01">
+            <freejoint name="joint_pile_z5_b9"/>
+            <geom name="pile_z5_b9" type="box" size="0.250 0.300 0.200" material="mat_box_yellow" density="100.0" contype="1" conaffinity="1" group="3"/>
+            <geom name="pile_z5_b9_visual" type="box" size="0.250 0.300 0.200" material="mat_box_yellow" contype="0" conaffinity="0" group="2"/>
+        </body>
+        <geom class="env_visual" name="pile_z5_b10" type="box" pos="15.827 -2.640 0.150" size="0.150 0.150 0.150" euler="0.00 0.00 23.21" material="mat_box_yellow"/>
+        <geom class="env_solid" name="pile_z5_b10_col" type="box" pos="15.827 -2.640 0.150" size="0.150 0.150 0.150" euler="0.00 0.00 23.21"/>
+        <body name="dyn_pile_z5_b11" pos="18.776 -4.848 0.460" euler="0.00 0.00 0.88">
+            <freejoint name="joint_pile_z5_b11"/>
+            <geom name="pile_z5_b11" type="box" size="0.150 0.150 0.150" material="mat_box_yellow" density="100.0" contype="1" conaffinity="1" group="3"/>
+            <geom name="pile_z5_b11_visual" type="box" size="0.150 0.150 0.150" material="mat_box_yellow" contype="0" conaffinity="0" group="2"/>
+        </body>
+        <body name="dyn_pile_z5_b12" pos="20.047 -2.032 0.300" euler="0.00 0.00 33.78">
+            <freejoint name="joint_pile_z5_b12"/>
+            <geom name="pile_z5_b12" type="box" size="0.300 0.300 0.300" material="mat_box_yellow" density="100.0" contype="1" conaffinity="1" group="3"/>
+            <geom name="pile_z5_b12_visual" type="box" size="0.300 0.300 0.300" material="mat_box_yellow" contype="0" conaffinity="0" group="2"/>
+        </body>
+        <geom class="env_visual" name="pile_z5_b13" type="box" pos="16.599 -5.390 0.180" size="0.220 0.180 0.180" euler="0.00 0.00 87.33" material="mat_box_yellow"/>
+        <geom class="env_solid" name="pile_z5_b13_col" type="box" pos="16.599 -5.390 0.180" size="0.220 0.180 0.180" euler="0.00 0.00 87.33"/>
+        <geom class="env_visual" name="pile_z5_b14" type="box" pos="19.276 -3.174 0.720" size="0.180 0.280 0.140" euler="0.00 0.00 74.83" material="mat_box_yellow"/>
+        <geom class="env_solid" name="pile_z5_b14_col" type="box" pos="19.276 -3.174 0.720" size="0.180 0.280 0.140" euler="0.00 0.00 74.83"/>
+        <geom class="env_visual" name="pile_z5_b15" type="box" pos="17.596 -5.643 0.490" size="0.280 0.220 0.160" euler="0.00 0.00 40.15" material="mat_box_yellow"/>
+        <geom class="env_solid" name="pile_z5_b15_col" type="box" pos="17.596 -5.643 0.490" size="0.280 0.220 0.160" euler="0.00 0.00 40.15"/>
+        <geom class="env_visual" name="pile_z5_b16" type="box" pos="18.171 -1.604 0.910" size="0.300 0.300 0.300" euler="0.00 0.00 39.47" material="mat_box_yellow"/>
+        <geom class="env_solid" name="pile_z5_b16_col" type="box" pos="18.171 -1.604 0.910" size="0.300 0.300 0.300" euler="0.00 0.00 39.47"/>
+        <geom class="env_visual" name="pile_z5_b17" type="box" pos="19.054 -4.371 0.910" size="0.300 0.300 0.300" euler="0.00 0.00 55.78" material="mat_box_yellow"/>
+        <geom class="env_solid" name="pile_z5_b17_col" type="box" pos="19.054 -4.371 0.910" size="0.300 0.300 0.300" euler="0.00 0.00 55.78"/>
+        <geom class="env_visual" name="pile_z6_b0" type="box" pos="19.893 3.613 0.160" size="0.280 0.220 0.160" euler="0.00 0.00 15.17" material="mat_box_yellow"/>
+        <geom class="env_solid" name="pile_z6_b0_col" type="box" pos="19.893 3.613 0.160" size="0.280 0.220 0.160" euler="0.00 0.00 15.17"/>
+        <body name="dyn_pile_z6_b1" pos="20.016 5.072 0.550" euler="0.00 0.00 82.39">
+            <freejoint name="joint_pile_z6_b1"/>
+            <geom name="pile_z6_b1" type="box" size="0.220 0.180 0.180" material="mat_box_yellow" density="100.0" contype="1" conaffinity="1" group="3"/>
+            <geom name="pile_z6_b1_visual" type="box" size="0.220 0.180 0.180" material="mat_box_yellow" contype="0" conaffinity="0" group="2"/>
+        </body>
+        <body name="dyn_pile_z6_b2" pos="16.889 1.588 0.200" euler="0.00 0.00 70.76">
+            <freejoint name="joint_pile_z6_b2"/>
+            <geom name="pile_z6_b2" type="box" size="0.250 0.300 0.200" material="mat_box_yellow" density="100.0" contype="1" conaffinity="1" group="3"/>
+            <geom name="pile_z6_b2_visual" type="box" size="0.250 0.300 0.200" material="mat_box_yellow" contype="0" conaffinity="0" group="2"/>
+        </body>
+        <body name="dyn_pile_z6_b3" pos="20.034 1.358 0.610" euler="0.00 0.00 74.15">
+            <freejoint name="joint_pile_z6_b3"/>
+            <geom name="pile_z6_b3" type="box" size="0.200 0.200 0.200" material="mat_box_yellow" density="100.0" contype="1" conaffinity="1" group="3"/>
+            <geom name="pile_z6_b3_visual" type="box" size="0.200 0.200 0.200" material="mat_box_yellow" contype="0" conaffinity="0" group="2"/>
+        </body>
+        <geom class="env_visual" name="pile_z6_b4" type="box" pos="17.102 3.238 0.250" size="0.300 0.400 0.250" euler="0.00 0.00 2.57" material="mat_box_yellow"/>
+        <geom class="env_solid" name="pile_z6_b4_col" type="box" pos="17.102 3.238 0.250" size="0.300 0.400 0.250" euler="0.00 0.00 2.57"/>
+        <geom class="env_visual" name="pile_z6_b5" type="box" pos="17.945 5.627 0.430" size="0.180 0.280 0.140" euler="0.00 0.00 50.46" material="mat_box_yellow"/>
+        <geom class="env_solid" name="pile_z6_b5_col" type="box" pos="17.945 5.627 0.430" size="0.180 0.280 0.140" euler="0.00 0.00 50.46"/>
+        <body name="dyn_pile_z6_b6" pos="15.892 3.752 1.020" euler="0.00 0.00 43.49">
+            <freejoint name="joint_pile_z6_b6"/>
+            <geom name="pile_z6_b6" type="box" size="0.200 0.200 0.200" material="mat_box_yellow" density="100.0" contype="1" conaffinity="1" group="3"/>
+            <geom name="pile_z6_b6_visual" type="box" size="0.200 0.200 0.200" material="mat_box_yellow" contype="0" conaffinity="0" group="2"/>
+        </body>
+        <body name="dyn_pile_z6_b7" pos="20.126 5.589 0.140" euler="0.00 0.00 54.65">
+            <freejoint name="joint_pile_z6_b7"/>
+            <geom name="pile_z6_b7" type="box" size="0.180 0.280 0.140" material="mat_box_yellow" density="100.0" contype="1" conaffinity="1" group="3"/>
+            <geom name="pile_z6_b7_visual" type="box" size="0.180 0.280 0.140" material="mat_box_yellow" contype="0" conaffinity="0" group="2"/>
+        </body>
+        <geom class="env_visual" name="pile_z6_b8" type="box" pos="19.816 3.524 0.610" size="0.350 0.250 0.200" euler="0.00 0.00 71.95" material="mat_box_yellow"/>
+        <geom class="env_solid" name="pile_z6_b8_col" type="box" pos="19.816 3.524 0.610" size="0.350 0.250 0.200" euler="0.00 0.00 71.95"/>
+        <body name="dyn_pile_z6_b9" pos="19.212 2.864 0.610" euler="0.00 0.00 31.69">
+            <freejoint name="joint_pile_z6_b9"/>
+            <geom name="pile_z6_b9" type="box" size="0.200 0.200 0.200" material="mat_box_yellow" density="100.0" contype="1" conaffinity="1" group="3"/>
+            <geom name="pile_z6_b9_visual" type="box" size="0.200 0.200 0.200" material="mat_box_yellow" contype="0" conaffinity="0" group="2"/>
+        </body>
+        <geom class="env_visual" name="pile_z6_b10" type="box" pos="19.675 4.211 0.910" size="0.400 0.300 0.300" euler="0.00 0.00 68.49" material="mat_box_yellow"/>
+        <geom class="env_solid" name="pile_z6_b10_col" type="box" pos="19.675 4.211 0.910" size="0.400 0.300 0.300" euler="0.00 0.00 68.49"/>
+        <body name="dyn_pile_z6_b11" pos="17.712 2.955 0.160" euler="0.00 0.00 21.80">
+            <freejoint name="joint_pile_z6_b11"/>
+            <geom name="pile_z6_b11" type="box" size="0.280 0.220 0.160" material="mat_box_yellow" density="100.0" contype="1" conaffinity="1" group="3"/>
+            <geom name="pile_z6_b11_visual" type="box" size="0.280 0.220 0.160" material="mat_box_yellow" contype="0" conaffinity="0" group="2"/>
+        </body>
         <geom class="env_visual" name="beam_x_0" type="box" pos="0.000 -9.000 5.600" size="22.000 0.100 0.100" material="mat_beam"/>
         <geom class="env_solid" name="beam_x_0_col" type="box" pos="0.000 -9.000 5.600" size="22.000 0.100 0.100"/>
         <geom class="env_visual" name="beam_x_1" type="box" pos="0.000 -3.000 5.600" size="22.000 0.100 0.100" material="mat_beam"/>
@@ -2757,17 +2834,80 @@
         <geom class="env_visual" name="hanging_3" type="cylinder" pos="0.000 7.000 4.600" size="0.100 0.450" material="mat_shelf_red"/>
         <geom class="env_visual" name="hanging_4" type="cylinder" pos="8.000 -7.000 4.600" size="0.100 0.450" material="mat_shelf_red"/>
         <geom class="env_visual" name="hanging_5" type="cylinder" pos="8.000 7.000 4.600" size="0.100 0.450" material="mat_shelf_red"/>
-        <geom class="env_visual" name="crate_0" type="box" pos="-1.000 -11.000 0.400" size="0.500 0.400 0.400" euler="0.00 0.00 21.15" material="mat_box_yellow"/>
-        <geom class="env_solid" name="crate_0_col" type="box" pos="-1.000 -11.000 0.400" size="0.500 0.400 0.400" euler="0.00 0.00 21.15"/>
-        <geom class="env_visual" name="crate_1" type="box" pos="-12.000 0.000 0.500" size="0.500 0.600 0.500" euler="0.00 0.00 28.27" material="mat_box_yellow"/>
-        <geom class="env_solid" name="crate_1_col" type="box" pos="-12.000 0.000 0.500" size="0.500 0.600 0.500" euler="0.00 0.00 28.27"/>
-        <geom class="env_visual" name="crate_2" type="box" pos="6.000 -11.500 0.400" size="0.600 0.500 0.400" euler="0.00 0.00 24.93" material="mat_box_yellow"/>
-        <geom class="env_solid" name="crate_2_col" type="box" pos="6.000 -11.500 0.400" size="0.600 0.500 0.400" euler="0.00 0.00 24.93"/>
-        <geom class="env_visual" name="crate_3" type="box" pos="-3.000 12.500 0.400" size="0.400 0.500 0.400" euler="0.00 0.00 -12.66" material="mat_box_yellow"/>
-        <geom class="env_solid" name="crate_3_col" type="box" pos="-3.000 12.500 0.400" size="0.400 0.500 0.400" euler="0.00 0.00 -12.66"/>
-        <geom class="env_visual" name="crate_4" type="box" pos="13.000 0.000 0.500" size="0.500 0.500 0.500" euler="0.00 0.00 -25.05" material="mat_box_yellow"/>
-        <geom class="env_solid" name="crate_4_col" type="box" pos="13.000 0.000 0.500" size="0.500 0.500 0.500" euler="0.00 0.00 -25.05"/>
-        <geom class="env_visual" name="crate_5" type="box" pos="-17.000 0.000 0.400" size="0.400 0.400 0.400" euler="0.00 0.00 26.83" material="mat_box_yellow"/>
-        <geom class="env_solid" name="crate_5_col" type="box" pos="-17.000 0.000 0.400" size="0.400 0.400 0.400" euler="0.00 0.00 26.83"/>
+        <geom class="env_visual" name="crate_0" type="box" pos="-1.000 -11.000 0.400" size="0.500 0.400 0.400" euler="0.00 0.00 -10.61" material="mat_box_yellow"/>
+        <geom class="env_solid" name="crate_0_col" type="box" pos="-1.000 -11.000 0.400" size="0.500 0.400 0.400" euler="0.00 0.00 -10.61"/>
+        <geom class="env_visual" name="crate_1" type="box" pos="-12.000 0.000 0.500" size="0.500 0.600 0.500" euler="0.00 0.00 4.58" material="mat_box_yellow"/>
+        <geom class="env_solid" name="crate_1_col" type="box" pos="-12.000 0.000 0.500" size="0.500 0.600 0.500" euler="0.00 0.00 4.58"/>
+        <geom class="env_visual" name="crate_2" type="box" pos="6.000 -11.500 0.400" size="0.600 0.500 0.400" euler="0.00 0.00 -4.12" material="mat_box_yellow"/>
+        <geom class="env_solid" name="crate_2_col" type="box" pos="6.000 -11.500 0.400" size="0.600 0.500 0.400" euler="0.00 0.00 -4.12"/>
+        <geom class="env_visual" name="crate_3" type="box" pos="-3.000 12.500 0.400" size="0.400 0.500 0.400" euler="0.00 0.00 -11.59" material="mat_box_yellow"/>
+        <geom class="env_solid" name="crate_3_col" type="box" pos="-3.000 12.500 0.400" size="0.400 0.500 0.400" euler="0.00 0.00 -11.59"/>
+        <geom class="env_visual" name="crate_4" type="box" pos="13.000 0.000 0.500" size="0.500 0.500 0.500" euler="0.00 0.00 3.50" material="mat_box_yellow"/>
+        <geom class="env_solid" name="crate_4_col" type="box" pos="13.000 0.000 0.500" size="0.500 0.500 0.500" euler="0.00 0.00 3.50"/>
+        <geom class="env_visual" name="crate_5" type="box" pos="-17.000 0.000 0.400" size="0.400 0.400 0.400" euler="0.00 0.00 -17.30" material="mat_box_yellow"/>
+        <geom class="env_solid" name="crate_5_col" type="box" pos="-17.000 0.000 0.400" size="0.400 0.400 0.400" euler="0.00 0.00 -17.30"/>
+        <geom class="env_visual" name="bollard_0" type="cylinder" pos="-12.500 -12.500 0.400" size="0.080 0.400" material="mat_marking"/>
+        <geom class="env_solid" name="bollard_0_col" type="cylinder" pos="-12.500 -12.500 0.400" size="0.080 0.400"/>
+        <geom class="env_visual" name="bollard_1" type="cylinder" pos="-12.500 -9.500 0.400" size="0.080 0.400" material="mat_marking"/>
+        <geom class="env_solid" name="bollard_1_col" type="cylinder" pos="-12.500 -9.500 0.400" size="0.080 0.400"/>
+        <geom class="env_visual" name="bollard_2" type="cylinder" pos="4.500 -12.500 0.400" size="0.080 0.400" material="mat_marking"/>
+        <geom class="env_solid" name="bollard_2_col" type="cylinder" pos="4.500 -12.500 0.400" size="0.080 0.400"/>
+        <geom class="env_visual" name="bollard_3" type="cylinder" pos="4.500 -9.500 0.400" size="0.080 0.400" material="mat_marking"/>
+        <geom class="env_solid" name="bollard_3_col" type="cylinder" pos="4.500 -9.500 0.400" size="0.080 0.400"/>
+        <geom class="env_visual" name="bollard_4" type="cylinder" pos="-12.500 -8.500 0.400" size="0.080 0.400" material="mat_marking"/>
+        <geom class="env_solid" name="bollard_4_col" type="cylinder" pos="-12.500 -8.500 0.400" size="0.080 0.400"/>
+        <geom class="env_visual" name="bollard_5" type="cylinder" pos="-12.500 -5.500 0.400" size="0.080 0.400" material="mat_marking"/>
+        <geom class="env_solid" name="bollard_5_col" type="cylinder" pos="-12.500 -5.500 0.400" size="0.080 0.400"/>
+        <geom class="env_visual" name="bollard_6" type="cylinder" pos="4.500 -8.500 0.400" size="0.080 0.400" material="mat_marking"/>
+        <geom class="env_solid" name="bollard_6_col" type="cylinder" pos="4.500 -8.500 0.400" size="0.080 0.400"/>
+        <geom class="env_visual" name="bollard_7" type="cylinder" pos="4.500 -5.500 0.400" size="0.080 0.400" material="mat_marking"/>
+        <geom class="env_solid" name="bollard_7_col" type="cylinder" pos="4.500 -5.500 0.400" size="0.080 0.400"/>
+        <geom class="env_visual" name="bollard_8" type="cylinder" pos="-12.500 -5.000 0.400" size="0.080 0.400" material="mat_marking"/>
+        <geom class="env_solid" name="bollard_8_col" type="cylinder" pos="-12.500 -5.000 0.400" size="0.080 0.400"/>
+        <geom class="env_visual" name="bollard_9" type="cylinder" pos="-12.500 -2.000 0.400" size="0.080 0.400" material="mat_marking"/>
+        <geom class="env_solid" name="bollard_9_col" type="cylinder" pos="-12.500 -2.000 0.400" size="0.080 0.400"/>
+        <geom class="env_visual" name="bollard_10" type="cylinder" pos="4.500 -5.000 0.400" size="0.080 0.400" material="mat_marking"/>
+        <geom class="env_solid" name="bollard_10_col" type="cylinder" pos="4.500 -5.000 0.400" size="0.080 0.400"/>
+        <geom class="env_visual" name="bollard_11" type="cylinder" pos="4.500 -2.000 0.400" size="0.080 0.400" material="mat_marking"/>
+        <geom class="env_solid" name="bollard_11_col" type="cylinder" pos="4.500 -2.000 0.400" size="0.080 0.400"/>
+        <geom class="env_visual" name="bollard_12" type="cylinder" pos="-12.500 2.000 0.400" size="0.080 0.400" material="mat_marking"/>
+        <geom class="env_solid" name="bollard_12_col" type="cylinder" pos="-12.500 2.000 0.400" size="0.080 0.400"/>
+        <geom class="env_visual" name="bollard_13" type="cylinder" pos="-12.500 5.000 0.400" size="0.080 0.400" material="mat_marking"/>
+        <geom class="env_solid" name="bollard_13_col" type="cylinder" pos="-12.500 5.000 0.400" size="0.080 0.400"/>
+        <geom class="env_visual" name="bollard_14" type="cylinder" pos="4.500 2.000 0.400" size="0.080 0.400" material="mat_marking"/>
+        <geom class="env_solid" name="bollard_14_col" type="cylinder" pos="4.500 2.000 0.400" size="0.080 0.400"/>
+        <geom class="env_visual" name="bollard_15" type="cylinder" pos="4.500 5.000 0.400" size="0.080 0.400" material="mat_marking"/>
+        <geom class="env_solid" name="bollard_15_col" type="cylinder" pos="4.500 5.000 0.400" size="0.080 0.400"/>
+        <geom class="env_visual" name="bollard_16" type="cylinder" pos="-12.500 5.500 0.400" size="0.080 0.400" material="mat_marking"/>
+        <geom class="env_solid" name="bollard_16_col" type="cylinder" pos="-12.500 5.500 0.400" size="0.080 0.400"/>
+        <geom class="env_visual" name="bollard_17" type="cylinder" pos="-12.500 8.500 0.400" size="0.080 0.400" material="mat_marking"/>
+        <geom class="env_solid" name="bollard_17_col" type="cylinder" pos="-12.500 8.500 0.400" size="0.080 0.400"/>
+        <geom class="env_visual" name="bollard_18" type="cylinder" pos="4.500 5.500 0.400" size="0.080 0.400" material="mat_marking"/>
+        <geom class="env_solid" name="bollard_18_col" type="cylinder" pos="4.500 5.500 0.400" size="0.080 0.400"/>
+        <geom class="env_visual" name="bollard_19" type="cylinder" pos="4.500 8.500 0.400" size="0.080 0.400" material="mat_marking"/>
+        <geom class="env_solid" name="bollard_19_col" type="cylinder" pos="4.500 8.500 0.400" size="0.080 0.400"/>
+        <geom class="env_visual" name="bollard_20" type="cylinder" pos="-12.500 9.500 0.400" size="0.080 0.400" material="mat_marking"/>
+        <geom class="env_solid" name="bollard_20_col" type="cylinder" pos="-12.500 9.500 0.400" size="0.080 0.400"/>
+        <geom class="env_visual" name="bollard_21" type="cylinder" pos="-12.500 12.500 0.400" size="0.080 0.400" material="mat_marking"/>
+        <geom class="env_solid" name="bollard_21_col" type="cylinder" pos="-12.500 12.500 0.400" size="0.080 0.400"/>
+        <geom class="env_visual" name="bollard_22" type="cylinder" pos="4.500 9.500 0.400" size="0.080 0.400" material="mat_marking"/>
+        <geom class="env_solid" name="bollard_22_col" type="cylinder" pos="4.500 9.500 0.400" size="0.080 0.400"/>
+        <geom class="env_visual" name="bollard_23" type="cylinder" pos="4.500 12.500 0.400" size="0.080 0.400" material="mat_marking"/>
+        <geom class="env_solid" name="bollard_23_col" type="cylinder" pos="4.500 12.500 0.400" size="0.080 0.400"/>
+        <geom class="env_visual" name="wear_0" type="box" pos="13.890 9.651 0.002" size="0.568 0.351 0.001" material="mat_floor_wear"/>
+        <geom class="env_visual" name="wear_1" type="box" pos="-8.610 10.812 0.002" size="1.191 0.386 0.001" material="mat_floor_wear"/>
+        <geom class="env_visual" name="wear_2" type="box" pos="4.701 3.095 0.002" size="0.962 0.719 0.001" material="mat_floor_wear"/>
+        <geom class="env_visual" name="wear_3" type="box" pos="-13.217 3.120 0.002" size="0.995 0.621 0.001" material="mat_floor_wear"/>
+        <geom class="env_visual" name="wear_4" type="box" pos="-8.327 -9.062 0.002" size="0.365 0.493 0.001" material="mat_floor_wear"/>
+        <geom class="env_visual" name="wear_5" type="box" pos="-0.934 8.791 0.002" size="0.837 0.827 0.001" material="mat_floor_wear"/>
+        <geom class="env_visual" name="wear_6" type="box" pos="-4.299 -2.412 0.002" size="0.949 0.854 0.001" material="mat_floor_wear"/>
+        <geom class="env_visual" name="wear_7" type="box" pos="-3.999 -9.209 0.002" size="0.365 0.726 0.001" material="mat_floor_wear"/>
+        <geom class="env_visual" name="wear_8" type="box" pos="-3.152 -6.324 0.002" size="0.818 0.495 0.001" material="mat_floor_wear"/>
+        <geom class="env_visual" name="wear_9" type="box" pos="-14.065 6.903 0.002" size="0.803 1.148 0.001" material="mat_floor_wear"/>
+        <geom class="env_visual" name="wear_10" type="box" pos="-19.507 -0.495 0.002" size="0.969 0.377 0.001" material="mat_floor_wear"/>
+        <geom class="env_visual" name="wear_11" type="box" pos="5.062 -10.604 0.002" size="0.829 0.697 0.001" material="mat_floor_wear"/>
+        <geom class="env_visual" name="wear_12" type="box" pos="-4.547 -8.533 0.002" size="0.960 0.621 0.001" material="mat_floor_wear"/>
+        <geom class="env_visual" name="wear_13" type="box" pos="-7.362 -2.444 0.002" size="0.931 0.827 0.001" material="mat_floor_wear"/>
+        <geom class="env_visual" name="wear_14" type="box" pos="-0.233 6.630 0.002" size="0.653 1.118 0.001" material="mat_floor_wear"/>
     </worldbody>
 </mujoco>

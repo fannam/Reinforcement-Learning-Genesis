@@ -86,6 +86,12 @@ def parse_args() -> argparse.Namespace:
                         help="Stop simulation when all waypoints are complete.")
     parser.add_argument("--mission-log", default=None,
                         help="Optional CSV log path. Bare filenames are written under outputs/logs/.")
+    parser.add_argument("--cam-pos", nargs=3, type=float, default=[-3.5, -3.5, 2.5],
+                        metavar=("X", "Y", "Z"),
+                        help="Initial camera position.")
+    parser.add_argument("--cam-lookat", nargs=3, type=float, default=[0.0, 0.0, 0.0],
+                        metavar=("X", "Y", "Z"),
+                        help="Camera look-at target.")
     return parser.parse_args()
 
 
@@ -127,8 +133,8 @@ def main() -> None:
         viewer_options = gs.options.ViewerOptions(
             run_in_thread=run_in_thread,
             res=(1280, 800),
-            camera_pos=(-3.5, -3.5, 2.5),
-            camera_lookat=(0.0, 0.0, 0.0),
+            camera_pos=tuple(args.cam_pos),
+            camera_lookat=tuple(args.cam_lookat),
             camera_fov=50,
         )
 
